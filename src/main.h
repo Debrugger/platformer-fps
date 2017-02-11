@@ -23,6 +23,7 @@ public:
 	LobbyDialog();
 	virtual ~LobbyDialog();
 public slots:
+	void on_quitButton_clicked();
 };
 
 

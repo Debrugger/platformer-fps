@@ -52,6 +52,13 @@ LobbyDialog::LobbyDialog()
 LobbyDialog::~LobbyDialog()
 {
 }
+
+void LobbyDialog::on_quitButton_clicked()
+{
+	lobby_dialog_ptr->close();
+	app->quit();
+}
+
 int main(int c, char *p[])
 {
 	app = new QApplication(c, p);
