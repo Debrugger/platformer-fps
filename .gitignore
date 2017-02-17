@@ -33,3 +33,5 @@
 
 *.swp
 .depend
+shooterlobby
+moc_main.cpp
