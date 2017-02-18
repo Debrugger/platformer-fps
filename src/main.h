@@ -22,8 +22,12 @@ class LobbyDialog : public QDialog, public Ui::LobbyDialog  /*Ui:: has to be sam
 public:
 	LobbyDialog();
 	virtual ~LobbyDialog();
+	QPixmap char_pixmap;
+	void UpdateCharImage(int char_index);
 public slots:
+	void OnCharListChanged();
 	void on_quitButton_clicked();
+	
 };
 
 
