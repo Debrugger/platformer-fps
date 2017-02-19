@@ -33,5 +33,7 @@
 
 *.swp
 .depend
-src/shooterlobby
+shooterlobby
+configurator
 src/moc_main.cpp
+configurator_src/moc_configurator.cpp
