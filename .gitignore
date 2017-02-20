@@ -34,6 +34,8 @@
 *.swp
 *_ui.h
 .depend
+bin/*
+settings
 shooterlobby
 configurator
 src/moc_main.cpp
