@@ -47,7 +47,7 @@ $(APP_NAME): $(OBJLIST)
 configurator_ui.h: rc/configurator.ui configurator_src/moc_configurator.cpp
 	@echo "generating $@..."
 	@uic $< -o $@
-
+#ehh jetz hab ich zwei regeln für .o das geht nich
 %.o: configurator_src/%.cpp configurator_ui.h
 	@echo "compiling $<...."
 	@g++ -c $(FLAGS) $(INCLUDES) -o $@ $<

@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDialog>
 #include <QDebug>
+#include <QSettings>
 
 #include <QLabel>
 #include <QPushButton>
@@ -13,6 +14,7 @@
 #include <QImage>
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
+#include <QFileDialog>
 
 #include "lobby_dialog_ui.h"
 
@@ -22,8 +24,11 @@ class LobbyDialog : public QDialog, public Ui::LobbyDialog  /*Ui:: has to be sam
 public:
 	LobbyDialog();
 	virtual ~LobbyDialog();
+
+ 	void ReadSettings();
+
 	QPixmap char_pixmap;
-	void UpdateCharImage(int char_index);
+	void UpdateImage(QGraphicsView*&, QGraphicsScene*&, QPixmap&, QString&, int);
 public slots:
 	void OnCharListChanged();
 	void on_quitButton_clicked();

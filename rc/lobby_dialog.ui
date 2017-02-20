@@ -77,99 +77,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QScrollArea" name="worldScroll">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>571</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>569</width>
-       <height>159</height>
-      </rect>
-     </property>
-     <widget class="QListWidget" name="worldList">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>551</width>
-        <height>141</height>
-       </rect>
-      </property>
-      <item>
-       <property name="text">
-        <string>World 1</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 3</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 4</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 5</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 6</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 7</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 8</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 9</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 10</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 11</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>World 12</string>
-       </property>
-      </item>
-     </widget>
-    </widget>
-   </widget>
    <widget class="QLabel" name="userlabel">
     <property name="geometry">
      <rect>
@@ -180,7 +87,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Userlist</string>
+     <string>User list</string>
     </property>
    </widget>
    <widget class="QPushButton" name="readyButton">
@@ -219,6 +126,85 @@
      </rect>
     </property>
    </widget>
+   <widget class="QListWidget" name="worldList">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>571</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>World 1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 6</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 7</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 8</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 9</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 10</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 11</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>World 12</string>
+     </property>
+    </item>
+   </widget>
+   <zorder>characterList</zorder>
+   <zorder>characterView</zorder>
+   <zorder>userlist</zorder>
+   <zorder>userlabel</zorder>
+   <zorder>readyButton</zorder>
+   <zorder>quitButton</zorder>
+   <zorder>mapView</zorder>
+   <zorder>worldList</zorder>
+   <zorder>worldList</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="geometry">

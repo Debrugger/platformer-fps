@@ -4,7 +4,10 @@
 #include <QMainWindow>
 #include <QDebug>
 
+#include <QSignalMapper>
+
 #include <QLabel>
+#include <QSettings>
 #include <QPushButton>
 #include <QString>
 #include <QLineEdit>
@@ -24,6 +27,8 @@ public:
 	QPixmap char_pixmap;
 public slots:
 	void QuitClicked();
+	void ButtonClicked(int);
+	void SaveSettings();
 	
 };
 
