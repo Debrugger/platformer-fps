@@ -22,6 +22,7 @@ MainWindow* mainwindow_ptr;
 QSignalMapper* signalmapper;
 
 QString char_image_path[5];
+QString map_image_path[5];
 
 MainWindow::MainWindow()
 {
@@ -37,6 +38,12 @@ MainWindow::MainWindow()
 	c3_image_lineEdit->setReadOnly(true);
 	c4_image_lineEdit->setReadOnly(true);
 	c5_image_lineEdit->setReadOnly(true);
+
+	m1_map_lineEdit->setReadOnly(true);
+	m2_map_lineEdit->setReadOnly(true);
+	m3_map_lineEdit->setReadOnly(true);
+	m4_map_lineEdit->setReadOnly(true);
+	m5_map_lineEdit->setReadOnly(true);
 	setStyleSheet("QLineEdit[readOnly=\"true\"] {"
 			"color: #808080;"
 			"background-color: #F0F0F0;"
@@ -48,12 +55,25 @@ MainWindow::MainWindow()
    connect(c3_image_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
    connect(c4_image_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
    connect(c5_image_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
+
+   connect(m1_map_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
+   connect(m2_map_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
+   connect(m3_map_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
+   connect(m4_map_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
+   connect(m5_map_Button, SIGNAL(clicked()), signalmapper, SLOT(map()));
+
    /*Passing arguments to a SLOT is impossible, a signal mapper takes all the signals and reroutes them to the same function with diff. arguments*/
 	signalmapper->setMapping(c1_image_Button, 1);
 	signalmapper->setMapping(c2_image_Button, 2);
 	signalmapper->setMapping(c3_image_Button, 3);
 	signalmapper->setMapping(c4_image_Button, 4);
 	signalmapper->setMapping(c5_image_Button, 5);
+
+	signalmapper->setMapping(m1_map_Button, 10);
+	signalmapper->setMapping(m2_map_Button, 11);
+	signalmapper->setMapping(m3_map_Button, 12);
+	signalmapper->setMapping(m4_map_Button, 13);
+	signalmapper->setMapping(m5_map_Button, 14);
 
 	connect(signalmapper, SIGNAL(mapped(int)), this, SLOT(ButtonClicked(int)));
 
@@ -69,8 +89,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::ButtonClicked(int button_number)
 {
-	char_image_path[button_number - 1] = QFileDialog::getOpenFileName(this, tr("Open image"), app->applicationDirPath(), tr("PNG Images (*.png)"));
-	qDebug() << "Path to image: " << char_image_path[button_number-1];
+	if (button_number < 10)
+	{
+		char_image_path[button_number - 1] = QFileDialog::getOpenFileName(this, tr("Open image"), app->applicationDirPath(), tr("PNG Images (*.png)"));
+		qDebug() << "Path to image: " << char_image_path[button_number-1];
+	}
+	else
+	{
+		map_image_path[button_number - 10] = QFileDialog::getOpenFileName(this, tr("Open image"), app->applicationDirPath(), tr("PNG Images (*.png)"));
+		qDebug() << "Path to image: " << map_image_path[button_number - 10];
+	}
 	switch (button_number)
 	{
 		case 1: c1_image_lineEdit->setText(char_image_path[button_number-1]); break;
@@ -78,8 +106,15 @@ void MainWindow::ButtonClicked(int button_number)
 		case 3: c3_image_lineEdit->setText(char_image_path[button_number-1]); break;
 		case 4: c4_image_lineEdit->setText(char_image_path[button_number-1]); break;
 		case 5: c5_image_lineEdit->setText(char_image_path[button_number-1]); break;
+
+		case 10: m1_map_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 11: m2_map_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 12: m3_map_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 13: m4_map_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 14: m5_map_lineEdit->setText(map_image_path[button_number-10]); break; 
 	}
 }
+
 
 void MainWindow::QuitClicked()
 {
@@ -96,12 +131,24 @@ void MainWindow::ReadSettings()
 	char_image_path[2] = settings.value("char_image3").toString();
 	char_image_path[3] = settings.value("char_image4").toString();
 	char_image_path[4] = settings.value("char_image5").toString();
+
+	map_image_path[0] = settings.value("map_image1").toString();
+	map_image_path[1] = settings.value("map_image2").toString();
+	map_image_path[2] = settings.value("map_image3").toString();
+	map_image_path[3] = settings.value("map_image4").toString();
+	map_image_path[4] = settings.value("map_image5").toString();
 	settings.endGroup();
 	c1_image_lineEdit->setText(char_image_path[0]);
 	c2_image_lineEdit->setText(char_image_path[1]);
 	c3_image_lineEdit->setText(char_image_path[2]);
 	c4_image_lineEdit->setText(char_image_path[3]);
 	c5_image_lineEdit->setText(char_image_path[4]);
+
+	m1_map_lineEdit->setText(map_image_path[0]);
+	m2_map_lineEdit->setText(map_image_path[1]);
+	m3_map_lineEdit->setText(map_image_path[2]);
+	m4_map_lineEdit->setText(map_image_path[3]);
+	m5_map_lineEdit->setText(map_image_path[4]);
 
 	for (int i = 0; i < 4; i++)
 		qDebug() << "Loaded image path " << char_image_path[i];
@@ -117,6 +164,12 @@ void MainWindow::SaveSettings()
 	settings.setValue("char_image3", char_image_path[2]);
 	settings.setValue("char_image4", char_image_path[3]);
 	settings.setValue("char_image5", char_image_path[4]);
+
+	settings.setValue("map_image1", map_image_path[0]);
+	settings.setValue("map_image2", map_image_path[1]);
+	settings.setValue("map_image3", map_image_path[2]);
+	settings.setValue("map_image4", map_image_path[3]);
+	settings.setValue("map_image5", map_image_path[4]);
 	settings.endGroup();
 
 	status_label->setText("Settings Saved!");
@@ -130,6 +183,3 @@ int main(int c, char*p[])
 	mainwindow_ptr->show();
 	return app->exec();
 }
-//also der soll wenns eine gibt die config laden, alles in die felder schreiben
-//wenn nich gibt halt nicht
-//dann die pfad strings in ne config file schreiben

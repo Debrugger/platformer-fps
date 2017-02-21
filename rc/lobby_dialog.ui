@@ -126,7 +126,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QListWidget" name="worldList">
+   <widget class="QListWidget" name="mapList">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -160,51 +160,7 @@
       <string>World 5</string>
      </property>
     </item>
-    <item>
-     <property name="text">
-      <string>World 6</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 7</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 8</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 9</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 10</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 11</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 12</string>
-     </property>
-    </item>
    </widget>
-   <zorder>characterList</zorder>
-   <zorder>characterView</zorder>
-   <zorder>userlist</zorder>
-   <zorder>userlabel</zorder>
-   <zorder>readyButton</zorder>
-   <zorder>quitButton</zorder>
-   <zorder>mapView</zorder>
-   <zorder>worldList</zorder>
-   <zorder>worldList</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="geometry">

@@ -22,8 +22,10 @@ QApplication* app;
 LobbyDialog* lobby_dialog_ptr;
 
 QGraphicsScene* char_view_scene; /*needs to be global because scene gets deleted when out of scope otherwise*/
+QGraphicsScene* map_view_scene;
 
-QString char_image_path[5]; /*the idea is that this will be filled by reading a QSettings config file, will be changed to type QString*/
+QString char_image_path[5];
+QString map_image_path[5];
 
 LobbyDialog::LobbyDialog()
 {
@@ -33,18 +35,21 @@ LobbyDialog::LobbyDialog()
 	setWindowTitle("Lobby");
    
 	connect(characterList, SIGNAL(currentRowChanged(int)), this, SLOT(OnCharListChanged()));
+	connect(mapList, SIGNAL(currentRowChanged(int)), this, SLOT(OnMapListChanged()));
 
 	characterView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); /*no scroll bars in the image*/
 	characterView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	mapView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); /*no scroll bars in the image*/
 	mapView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-	int width = characterView->geometry().width();
-	int height = characterView->geometry().height();
-   char_view_scene = new QGraphicsScene(QRectF(0, 0, width, height), 0);
+   char_view_scene = new QGraphicsScene(QRectF(0, 0, characterView->geometry().width(), characterView->geometry().height()), 0);
+   map_view_scene = new QGraphicsScene(QRectF(0, 0, mapView->geometry().width(), mapView->geometry().height()), 0);
+
 	characterList->setCurrentRow(0);
+	mapList->setCurrentRow(0);
 	ReadSettings();
-	UpdateImage(characterView, char_view_scene, char_pixmap, char_image_path[characterList->currentRow()], characterList->currentRow()); /*Set up graphics view for character picture*/
+	UpdateImage(characterView, char_view_scene, char_pixmap, char_image_path[characterList->currentRow()]); /*Set up graphics view for character picture*/
+	UpdateImage(mapView, map_view_scene, map_pixmap, map_image_path[mapList->currentRow()]);
 }
 
 LobbyDialog::~LobbyDialog()
@@ -58,11 +63,10 @@ void LobbyDialog::on_quitButton_clicked()
   app->quit();
 }
 
-void LobbyDialog::UpdateImage(QGraphicsView*& view, QGraphicsScene*& scene, QPixmap& pixmap, QString& path, int image_index)
+void LobbyDialog::UpdateImage(QGraphicsView*& view, QGraphicsScene*& scene, QPixmap& pixmap, QString& path)
 {
 	scene->clear();
 	pixmap.load(path);
-	qDebug() << "image_index: " << image_index << path;
 
 	/*make image fit in graphics view*/
 	scene->addPixmap(pixmap.scaled(QSize((int)scene->width(), (int)scene->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -73,7 +77,13 @@ void LobbyDialog::UpdateImage(QGraphicsView*& view, QGraphicsScene*& scene, QPix
 void LobbyDialog::OnCharListChanged()
 {
 	cout << "Character list: Row changed to " << characterList->currentRow() << endl;
-	UpdateImage(characterView, char_view_scene, char_pixmap, char_image_path[characterList->currentRow()], characterList->currentRow());
+	UpdateImage(characterView, char_view_scene, char_pixmap, char_image_path[characterList->currentRow()]);
+}
+
+void LobbyDialog::OnMapListChanged()
+{
+	cout << "Map list: Row changed to " << mapList->currentRow() << endl;
+	UpdateImage(mapView, map_view_scene, map_pixmap, map_image_path[mapList->currentRow()]);
 }
 
 void LobbyDialog::ReadSettings()
@@ -86,6 +96,12 @@ void LobbyDialog::ReadSettings()
 	char_image_path[2] = settings.value("char_image3").toString();
 	char_image_path[3] = settings.value("char_image4").toString();
 	char_image_path[4] = settings.value("char_image5").toString();
+
+	map_image_path[0] = settings.value("map_image1").toString();
+	map_image_path[1] = settings.value("map_image2").toString();
+	map_image_path[2] = settings.value("map_image3").toString();
+	map_image_path[3] = settings.value("map_image4").toString();
+	map_image_path[4] = settings.value("map_image5").toString();
 	settings.endGroup();
 
 	cout << "Settings loaded!" << endl;

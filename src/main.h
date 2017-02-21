@@ -28,9 +28,11 @@ public:
  	void ReadSettings();
 
 	QPixmap char_pixmap;
-	void UpdateImage(QGraphicsView*&, QGraphicsScene*&, QPixmap&, QString&, int);
+	QPixmap map_pixmap;
+	void UpdateImage(QGraphicsView*&, QGraphicsScene*&, QPixmap&, QString&);
 public slots:
 	void OnCharListChanged();
+	void OnMapListChanged();
 	void on_quitButton_clicked();
 	
 };
