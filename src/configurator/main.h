@@ -1,5 +1,5 @@
-#ifndef __CONFIGURATOR_H
-#define __CONFIGURATOR_H
+#ifndef __MAIN_H
+#define __MAIN_H
 #include <QApplication>
 #include <QMainWindow>
 #include <QDebug>
@@ -33,5 +33,5 @@ public slots:
 };
 
 
-#endif // __CONFIGURATOR_H
+#endif // __MAIN_H
 

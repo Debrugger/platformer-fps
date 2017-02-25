@@ -17,6 +17,7 @@
 #include <QFileDialog>
 
 #include "../../build/lobby/lobby_dialog_ui.h"
+#include "../../build/lobby/connect_dialog_ui.h"
 
 class LobbyDialog : public QDialog, public Ui::LobbyDialog  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
 {
@@ -35,6 +36,15 @@ public slots:
 	void OnMapListChanged();
 	void on_quitButton_clicked();
 	
+};
+
+class ConnectDialog : public QDialog, public Ui::ConnectDialog
+{
+	Q_OBJECT;
+public:
+	ConnectDialog();
+	virtual ~ConnectDialog();
+public slots:
 };
 
 

@@ -12,7 +12,7 @@
 /* Qt */
 #include <QApplication>
 
-#include "configurator.h"
+#include "main.h"
 #include "../../build/configurator/configurator_ui.h"
 
 using namespace std;
@@ -89,16 +89,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::ButtonClicked(int button_number)
 {
+	QString* p;
 	if (button_number < 10)
-	{
-		char_image_path[button_number - 1] = QFileDialog::getOpenFileName(this, tr("Open image"), app->applicationDirPath(), tr("PNG Images (*.png)"));
-		qDebug() << "Path to image: " << char_image_path[button_number-1];
-	}
+		p = &char_image_path[button_number - 1];
 	else
-	{
-		map_image_path[button_number - 10] = QFileDialog::getOpenFileName(this, tr("Open image"), app->applicationDirPath(), tr("PNG Images (*.png)"));
-		qDebug() << "Path to image: " << map_image_path[button_number - 10];
-	}
+		p = &map_image_path[button_number - 10];
+	QString path = QFileDialog::getOpenFileName(this, tr("Open image"), app->applicationDirPath(), tr("PNG Images (*.png)"));
+	QDir dir(QDir::currentPath());
+	*p = dir.relativeFilePath(path);
+	qDebug() << "Path to image: " << *p;
+	
 	switch (button_number)
 	{
 		case 1: c1_image_lineEdit->setText(char_image_path[button_number-1]); break;
@@ -126,18 +126,14 @@ void MainWindow::ReadSettings()
 {
 	QSettings settings("settings", QSettings::NativeFormat);
 	settings.beginGroup("Preview_Images");
-	char_image_path[0] = settings.value("char_image1").toString();
-	char_image_path[1] = settings.value("char_image2").toString();
-	char_image_path[2] = settings.value("char_image3").toString();
-	char_image_path[3] = settings.value("char_image4").toString();
-	char_image_path[4] = settings.value("char_image5").toString();
 
-	map_image_path[0] = settings.value("map_image1").toString();
-	map_image_path[1] = settings.value("map_image2").toString();
-	map_image_path[2] = settings.value("map_image3").toString();
-	map_image_path[3] = settings.value("map_image4").toString();
-	map_image_path[4] = settings.value("map_image5").toString();
+	for (int i = 0; i < 4; i++)
+	{
+		char_image_path[i] = settings.value(QString("char_image%1").arg(i+1)).toString();
+		map_image_path[i] = settings.value(QString("map_image%1").arg(i+1)).toString();
+	}
 	settings.endGroup();
+
 	c1_image_lineEdit->setText(char_image_path[0]);
 	c2_image_lineEdit->setText(char_image_path[1]);
 	c3_image_lineEdit->setText(char_image_path[2]);
