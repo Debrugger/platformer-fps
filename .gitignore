@@ -32,11 +32,9 @@
 *.app
 
 *.swp
-*_ui.h
 .depend
 bin/*
 settings
-shooterlobby
-configurator
-src/moc_main.cpp
-configurator_src/moc_configurator.cpp
+src/lobby/moc_main.cpp
+src/configurator/moc_configurator.cpp
+build
