@@ -34,7 +34,6 @@
 *.swp
 .depend
 bin/*
-settings
 src/lobby/moc_main.cpp
 src/configurator/moc_configurator.cpp
 build
