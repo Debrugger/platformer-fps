@@ -45,6 +45,7 @@ public:
 	ConnectDialog();
 	virtual ~ConnectDialog();
 public slots:
+	void on_cancel_button_clicked();
 };
 
 

@@ -35,3 +35,8 @@ ConnectDialog::ConnectDialog()
 ConnectDialog::~ConnectDialog()
 {
 }
+
+void ConnectDialog::on_cancel_button_clicked()
+{
+	close();
+}

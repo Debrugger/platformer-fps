@@ -99,7 +99,4 @@ void LobbyDialog::ReadSettings()
 	settings.endGroup();
 
 	cout << "Settings loaded!" << endl;
-	for (int i = 0; i < 4; i++)
-		qDebug() << "Loaded image path " << char_image_path[i];
-
 }
