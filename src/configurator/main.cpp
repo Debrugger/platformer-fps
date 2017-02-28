@@ -39,11 +39,11 @@ MainWindow::MainWindow()
 	c4_image_lineEdit->setReadOnly(true);
 	c5_image_lineEdit->setReadOnly(true);
 
-	m1_map_lineEdit->setReadOnly(true);
-	m2_map_lineEdit->setReadOnly(true);
-	m3_map_lineEdit->setReadOnly(true);
-	m4_map_lineEdit->setReadOnly(true);
-	m5_map_lineEdit->setReadOnly(true);
+	m1_map_img_lineEdit->setReadOnly(true);
+	m2_map_img_lineEdit->setReadOnly(true);
+	m3_map_img_lineEdit->setReadOnly(true);
+	m4_map_img_lineEdit->setReadOnly(true);
+	m5_map_img_lineEdit->setReadOnly(true);
 	setStyleSheet("QLineEdit[readOnly=\"true\"] {"
 			"color: #808080;"
 			"background-color: #F0F0F0;"
@@ -107,11 +107,11 @@ void MainWindow::ButtonClicked(int button_number)
 		case 4: c4_image_lineEdit->setText(char_image_path[button_number-1]); break;
 		case 5: c5_image_lineEdit->setText(char_image_path[button_number-1]); break;
 
-		case 10: m1_map_lineEdit->setText(map_image_path[button_number-10]); break; 
-		case 11: m2_map_lineEdit->setText(map_image_path[button_number-10]); break; 
-		case 12: m3_map_lineEdit->setText(map_image_path[button_number-10]); break; 
-		case 13: m4_map_lineEdit->setText(map_image_path[button_number-10]); break; 
-		case 14: m5_map_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 10: m1_map_img_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 11: m2_map_img_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 12: m3_map_img_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 13: m4_map_img_lineEdit->setText(map_image_path[button_number-10]); break; 
+		case 14: m5_map_img_lineEdit->setText(map_image_path[button_number-10]); break; 
 	}
 }
 
@@ -140,32 +140,56 @@ void MainWindow::ReadSettings()
 	c4_image_lineEdit->setText(char_image_path[3]);
 	c5_image_lineEdit->setText(char_image_path[4]);
 
-	m1_map_lineEdit->setText(map_image_path[0]);
-	m2_map_lineEdit->setText(map_image_path[1]);
-	m3_map_lineEdit->setText(map_image_path[2]);
-	m4_map_lineEdit->setText(map_image_path[3]);
-	m5_map_lineEdit->setText(map_image_path[4]);
+	m1_map_img_lineEdit->setText(map_image_path[0]);
+	m2_map_img_lineEdit->setText(map_image_path[1]);
+	m3_map_img_lineEdit->setText(map_image_path[2]);
+	m4_map_img_lineEdit->setText(map_image_path[3]);
+	m5_map_img_lineEdit->setText(map_image_path[4]);
+
+
+	settings.beginGroup("Names");
+	c1_name_lineEdit->setText(settings.value("char_name1").toString());
+	c2_name_lineEdit->setText(settings.value("char_name2").toString());
+	c3_name_lineEdit->setText(settings.value("char_name3").toString());
+	c4_name_lineEdit->setText(settings.value("char_name4").toString());
+	c5_name_lineEdit->setText(settings.value("char_name5").toString());
+
+	m1_map_name_lineEdit->setText(settings.value("map_name1").toString());
+	m2_map_name_lineEdit->setText(settings.value("map_name2").toString());
+	m3_map_name_lineEdit->setText(settings.value("map_name3").toString());
+	m4_map_name_lineEdit->setText(settings.value("map_name4").toString());
+	m5_map_name_lineEdit->setText(settings.value("map_name5").toString());
+	settings.endGroup();
 
 	for (int i = 0; i < 4; i++)
 		qDebug() << "Loaded image path " << char_image_path[i];
 }
-
+//map und char name muessen noch eingelsen werden
 void MainWindow::SaveSettings()
 {
 	QSettings settings("settings", QSettings::NativeFormat);
 	settings.setIniCodec("UTF-8");
-	settings.beginGroup("Preview_Images");
-	settings.setValue("char_image1", char_image_path[0]);
-	settings.setValue("char_image2", char_image_path[1]);
-	settings.setValue("char_image3", char_image_path[2]);
-	settings.setValue("char_image4", char_image_path[3]);
-	settings.setValue("char_image5", char_image_path[4]);
 
-	settings.setValue("map_image1", map_image_path[0]);
-	settings.setValue("map_image2", map_image_path[1]);
-	settings.setValue("map_image3", map_image_path[2]);
-	settings.setValue("map_image4", map_image_path[3]);
-	settings.setValue("map_image5", map_image_path[4]);
+	settings.beginGroup("Names");
+	settings.setValue("char_name1", c1_name_lineEdit->text());
+	settings.setValue("char_name2", c2_name_lineEdit->text());
+	settings.setValue("char_name3", c3_name_lineEdit->text());
+	settings.setValue("char_name4", c4_name_lineEdit->text());
+	settings.setValue("char_name5", c5_name_lineEdit->text());
+
+	settings.setValue("map_name1", m1_map_name_lineEdit->text());
+	settings.setValue("map_name2", m2_map_name_lineEdit->text());
+	settings.setValue("map_name3", m3_map_name_lineEdit->text());
+	settings.setValue("map_name4", m4_map_name_lineEdit->text());
+	settings.setValue("map_name5", m5_map_name_lineEdit->text());
+	settings.endGroup();
+
+	settings.beginGroup("Preview_Images");
+	for (int i = 0; i < 5; i++)
+		settings.setValue(QString("char_image%1").arg(i + 1), char_image_path[i]);
+
+	for (int i = 0; i < 5; i++)
+		settings.setValue(QString("map_image%1").arg(i + 1), map_image_path[i]);
 	settings.endGroup();
 
 	status_label->setText("Settings Saved!");
