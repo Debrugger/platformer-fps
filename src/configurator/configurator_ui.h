@@ -16,80 +16,96 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QTabWidget>
 
 
 QT_BEGIN_NAMESPACE
 
 class Ui_ConfiguratorMainWindow
 {
-public:
-    QWidget *centralwidget;
-    QPushButton *saveButton;
-    QPushButton *quitButton;
-	 QPushButton* add_char_button;
-    QLabel *status_label;
-    QStatusBar *statusbar;
-	 QScrollArea* char_scroll_area;
-	 QBoxLayout* char_vert_layout;
-	 
-	 QGroupBox* char_box[30];
-	 QPushButton* char_img_button[30];
+    public:
+        QWidget *centralwidget;
+        QPushButton *saveButton;
+        QPushButton *quitButton;
+        QPushButton* add_char_button;
+        QLabel *status_label;
+        QStatusBar *statusbar;
+        QScrollArea* char_scroll_area;
+        QBoxLayout* char_vert_layout;
 
-	 QWidget* char_widget;
+        QTabWidget* tab_widget;
+        QWidget* char_tab;
+        QWidget* map_tab;
 
-    void setupUi(QMainWindow *ConfiguratorMainWindow)
-    {
-        if (ConfiguratorMainWindow->objectName().isEmpty())
-            ConfiguratorMainWindow->setObjectName(QStringLiteral("ConfiguratorMainWindow"));
-        ConfiguratorMainWindow->resize(670, 610);
-        centralwidget = new QWidget(ConfiguratorMainWindow);
-        centralwidget->setObjectName(QStringLiteral("centralwidget"));
+        QGroupBox* char_box[30];
+        QPushButton* char_img_button[30];
 
-        char_scroll_area = new QScrollArea(centralwidget);
-		  char_scroll_area->setObjectName(QStringLiteral("char_scroll_area"));
-		  char_scroll_area->setGeometry(QRect(10, 50, 650, 500));
+        QWidget* char_widget;
 
-		  char_widget = new QWidget;
-		  char_widget->setGeometry(QRect(10, 10, 650, 580));
-		  char_vert_layout = new QVBoxLayout(char_widget);
-		  char_vert_layout->setObjectName(QStringLiteral("char_vert_layout"));
-		  char_vert_layout->setGeometry(QRect(10, 10, 650, 580));
-		  char_vert_layout->setSizeConstraint(QLayout::SetFixedSize); //widgets in the layout have a fixed size
-		  char_scroll_area->setWidget(char_widget);
+        void setupUi(QMainWindow *ConfiguratorMainWindow)
+        {
+            if (ConfiguratorMainWindow->objectName().isEmpty())
+                ConfiguratorMainWindow->setObjectName(QStringLiteral("ConfiguratorMainWindow"));
+            ConfiguratorMainWindow->resize(670, 610);
+            centralwidget = new QWidget(ConfiguratorMainWindow);
+            centralwidget->setObjectName(QStringLiteral("centralwidget"));
+            tab_widget = new QTabWidget(centralwidget);
+            tab_widget->setGeometry(QRect(5, 10, 660, 545));
+            tab_widget->setObjectName(QStringLiteral("tab_widget"));
 
-        saveButton = new QPushButton(centralwidget);
-        saveButton->setObjectName(QStringLiteral("saveButton"));
-        saveButton->setGeometry(QRect(330, 560, 120, 20));
-        quitButton = new QPushButton(centralwidget);
-        quitButton->setObjectName(QStringLiteral("quitButton"));
-        quitButton->setGeometry(QRect(470, 560, 80, 20));
+            char_tab = new QWidget();
+            char_tab->setObjectName(QStringLiteral("char_tab"));
+            map_tab = new QWidget();
+            map_tab->setObjectName(QStringLiteral("map_tab"));
 
-        status_label = new QLabel(centralwidget);
-        status_label->setObjectName(QStringLiteral("status_label"));
-        status_label->setGeometry(QRect(70, 560, 181, 20));
+            tab_widget->addTab(char_tab, QString("Characters"));
+            tab_widget->addTab(map_tab, QString("Maps"));
 
-		  add_char_button = new QPushButton(centralwidget);
-        add_char_button->setObjectName(QStringLiteral("add_char_button"));
-        add_char_button->setText("Add character");
-        add_char_button->setGeometry(QRect(10, 25, 150, 20));
+            char_scroll_area = new QScrollArea(char_tab);
+            char_scroll_area->setObjectName(QStringLiteral("char_scroll_area"));
+            char_scroll_area->setGeometry(QRect(5, 30, 652, 485));
 
-        ConfiguratorMainWindow->setCentralWidget(centralwidget);
-        statusbar = new QStatusBar(ConfiguratorMainWindow);
-        statusbar->setObjectName(QStringLiteral("statusbar"));
-        ConfiguratorMainWindow->setStatusBar(statusbar);
+            char_widget = new QWidget;
+            char_widget->setGeometry(QRect(10, 10, 630, 545));
+            char_vert_layout = new QVBoxLayout(char_widget);
+            char_vert_layout->setObjectName(QStringLiteral("char_vert_layout"));
+            char_vert_layout->setGeometry(QRect(10, 10, 630, 545));
+            char_vert_layout->setSizeConstraint(QLayout::SetFixedSize); //widgets in the layout have a fixed size
+            char_scroll_area->setWidget(char_widget);
 
-        retranslateUi(ConfiguratorMainWindow);
+            saveButton = new QPushButton(centralwidget);
+            saveButton->setObjectName(QStringLiteral("saveButton"));
+            saveButton->setGeometry(QRect(330, 560, 120, 20));
+            quitButton = new QPushButton(centralwidget);
+            quitButton->setObjectName(QStringLiteral("quitButton"));
+            quitButton->setGeometry(QRect(470, 560, 80, 20));
 
-        QMetaObject::connectSlotsByName(ConfiguratorMainWindow);
-    } // setupUi
+            status_label = new QLabel(centralwidget);
+            status_label->setObjectName(QStringLiteral("status_label"));
+            status_label->setGeometry(QRect(70, 560, 181, 20));
 
-    void retranslateUi(QMainWindow *ConfiguratorMainWindow)
-    {
-        ConfiguratorMainWindow->setWindowTitle(QApplication::translate("ConfiguratorMainWindow", "MainWindow", Q_NULLPTR));
-        saveButton->setText(QApplication::translate("ConfiguratorMainWindow", "Save configuration", Q_NULLPTR));
-        quitButton->setText(QApplication::translate("ConfiguratorMainWindow", "Quit", Q_NULLPTR));
-        status_label->setText(QString());
-    } // retranslateUi
+            add_char_button = new QPushButton(char_tab);
+            add_char_button->setObjectName(QStringLiteral("add_char_button"));
+            add_char_button->setText("Add character");
+            add_char_button->setGeometry(QRect(5, 5, 150, 20));
+
+            ConfiguratorMainWindow->setCentralWidget(centralwidget);
+            statusbar = new QStatusBar(ConfiguratorMainWindow);
+            statusbar->setObjectName(QStringLiteral("statusbar"));
+            ConfiguratorMainWindow->setStatusBar(statusbar);
+
+            retranslateUi(ConfiguratorMainWindow);
+
+            QMetaObject::connectSlotsByName(ConfiguratorMainWindow);
+        } // setupUi
+
+        void retranslateUi(QMainWindow *ConfiguratorMainWindow)
+        {
+            ConfiguratorMainWindow->setWindowTitle(QApplication::translate("ConfiguratorMainWindow", "MainWindow", Q_NULLPTR));
+            saveButton->setText(QApplication::translate("ConfiguratorMainWindow", "Save configuration", Q_NULLPTR));
+            quitButton->setText(QApplication::translate("ConfiguratorMainWindow", "Quit", Q_NULLPTR));
+            status_label->setText(QString());
+        } // retranslateUi
 
 };
 

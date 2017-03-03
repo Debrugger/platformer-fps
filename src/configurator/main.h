@@ -26,12 +26,12 @@ public:
 	virtual ~MainWindow();
 
  	void ReadSettings();
+	void ScrollBarToBottom();
 	QPixmap char_pixmap;
 public slots:
 	void QuitClicked();
 	void SaveSettings();
 	void on_add_char_button_clicked();
-	void ScrollBarToBottom(int, int);
 	
 };
 

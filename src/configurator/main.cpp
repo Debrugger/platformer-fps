@@ -32,7 +32,6 @@ MainWindow::MainWindow()
     setAttribute(Qt::WA_QuitOnClose);
     setWindowTitle("Configurator");
 
-    QScrollBar* scrollbar = char_scroll_area->verticalScrollBar();
     char_scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     setStyleSheet("QLineEdit[readOnly=\"true\"] {"
@@ -43,7 +42,6 @@ MainWindow::MainWindow()
 
     connect(quitButton, SIGNAL(clicked()), this, SLOT(QuitClicked()));
     connect(saveButton, SIGNAL(clicked()), this, SLOT(SaveSettings()));
-    connect(scrollbar, SIGNAL(rangeChanged(int,int)), this, SLOT(ScrollBarToBottom(int, int)));
 }
 
 MainWindow::~MainWindow()
@@ -105,11 +103,13 @@ void MainWindow::on_add_char_button_clicked()
 
     if (character->LastCharacter()->index == max_number_chars - 1)
         add_char_button->setEnabled(false);
+    ScrollBarToBottom();
 }
 
-void MainWindow::ScrollBarToBottom(int min, int max)
+void MainWindow::ScrollBarToBottom()
 {
-    char_scroll_area->verticalScrollBar()->setValue(max);
+    QScrollBar* p = char_scroll_area->verticalScrollBar();
+    p->setValue(p->maximum());
 }
 
 Character::Character()
