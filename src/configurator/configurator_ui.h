@@ -59,7 +59,7 @@ public:
 
         saveButton = new QPushButton(centralwidget);
         saveButton->setObjectName(QStringLiteral("saveButton"));
-        saveButton->setGeometry(QRect(329, 560, 111, 20));
+        saveButton->setGeometry(QRect(330, 560, 120, 20));
         quitButton = new QPushButton(centralwidget);
         quitButton->setObjectName(QStringLiteral("quitButton"));
         quitButton->setGeometry(QRect(470, 560, 80, 20));

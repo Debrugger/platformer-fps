@@ -25,13 +25,10 @@ public:
 	MainWindow();
 	virtual ~MainWindow();
 
-   const int max_number_chars = 30;
  	void ReadSettings();
-
 	QPixmap char_pixmap;
 public slots:
 	void QuitClicked();
-	void ButtonClicked(int);
 	void SaveSettings();
 	void on_add_char_button_clicked();
 	void ScrollBarToBottom(int, int);
@@ -51,33 +48,43 @@ public:
    ~Character();
 	int index;
 
-	QGroupBox* 		group_box;
-	QLabel*			label;
-	QLineEdit*		img_edit;
-	QLineEdit*		model_edit;
+	QGroupBox* 	group_box;
+	QLabel*		label;
+        QLabel*         name_label;
+        QLabel*         img_label;
 	QPushButton*	img_button;
+	QLineEdit*	img_edit;
+        QLabel*         model_label;
 	QPushButton*	model_button;
+	QLineEdit*	model_edit;
+        QLineEdit*      name_edit;
 	QToolButton*	delete_button;
 	static Character* FirstCharacter()	{ return first_character;	};
 	static Character* LastCharacter()	{ return last_character;	};
 	Character* PrevCharacter()				{ return prev_character;	};
-	Character* NextCharacter()				{ return last_character;	};
+	Character* NextCharacter()				{ return next_character;	};
 
 	void Show()
 	{
 		group_box->show();
 		label->show();
+                name_label->show();
 		delete_button->show();
 		img_edit->show();    
 		model_edit->show();  
 		img_button->show();    
 		model_button->show();                           
+                img_label->show();
+                model_label->show();
+                name_edit->show();
 	};                       
 
 	void NumberElements();   
 
 public slots:
 	void DeleteClicked();
+        void ImgButtonClicked();
+        void ModelButtonClicked();
 };
 
 #endif // __MAIN_H
