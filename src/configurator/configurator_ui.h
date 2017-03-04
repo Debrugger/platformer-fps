@@ -41,7 +41,7 @@ class Ui_ConfiguratorMainWindow
         QPushButton* char_img_button[30];
 
         QWidget* char_widget;
-
+               
         void setupUi(QMainWindow *ConfiguratorMainWindow)
         {
             if (ConfiguratorMainWindow->objectName().isEmpty())
