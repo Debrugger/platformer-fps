@@ -14,6 +14,7 @@
 
 #include "main.h"
 #include "configurator_ui.h"
+#include "../../build/configurator/save_dialog_ui.h"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ MainWindow::MainWindow()
     setWindowTitle("Configurator");
 
     char_scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    settings_saved = true;
 
     setStyleSheet("QLineEdit[readOnly=\"true\"] {"
             "color: #808080;"
@@ -40,20 +42,14 @@ MainWindow::MainWindow()
             "border-radius: 2px;}");
 
     connect(quitButton, SIGNAL(clicked()), this, SLOT(QuitClicked()));
-    connect(saveButton, SIGNAL(clicked()), this, SLOT(SaveSettings()));
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(SaveClicked()));
 }
 
 MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::QuitClicked()
-{
-    mainwindow_ptr->close();
-    app->quit();
-}
-
-void MainWindow::ReadSettings()
+void ReadSettings(MainWindow* mw)
 {
     QSettings settings("settings", QSettings::NativeFormat);
     int nb_chars = 0;
@@ -62,15 +58,20 @@ void MainWindow::ReadSettings()
     nb_chars = settings.value("nb_chars").toInt();
     if (nb_chars > max_number_chars)
     {
-        status_label->setText("Error in config file, too many characters");
+        mw->status_label->setText("Error in config file, too many characters");
         return;
     }
     for (int i = 0; i < nb_chars; i++)
     {
-        Item* item = new Item;
+        Item* item = new Item(mw, true);
         item->img_edit->setText(settings.value(QString("char_image%1").arg(i)).toString());
         item->model_edit->setText(settings.value(QString("char_model%1").arg(i)).toString());
         item->name_edit->setText(settings.value(QString("char_name%1").arg(i)).toString());
+
+        Item::connect(item->img_edit, SIGNAL(textChanged(QString)), item, SLOT(SettingChanged()));
+        Item::connect(item->model_edit, SIGNAL(textChanged(QString)), item, SLOT(SettingChanged()));
+        Item::connect(item->name_edit, SIGNAL(textChanged(QString)), item, SLOT(SettingChanged()));
+
         item->UpdateImage();
         item->Show();
     }
@@ -78,27 +79,30 @@ void MainWindow::ReadSettings()
 
 }
 
-void MainWindow::SaveSettings()
+void MainWindow::SaveClicked()
 {
-    QSettings settings("settings", QSettings::NativeFormat);
-    settings.setIniCodec("UTF-8");
+    SaveSettings(this);
+}
 
-    settings.beginGroup("Characters");
-    settings.setValue("nb_chars", Item::LastItem()->index + 1);
-    for (Item* c = Item::FirstItem(); c; c = c->NextItem())
+void MainWindow::QuitClicked()
+{   
+    cout << "settings_saved " << settings_saved << endl;
+    if (settings_saved)
     {
-        settings.setValue(QString("char_name%1").arg(c->index), c->name_edit->text());
-        settings.setValue(QString("char_image%1").arg(c->index), c->img_edit->text());
-        settings.setValue(QString("char_model%1").arg(c->index), c->model_edit->text());
+        close();
+        app->quit();
     }
-    settings.endGroup();
-
-    status_label->setText("Settings Saved!");
+    else
+    {
+        SaveDialog* sd;
+        sd = new SaveDialog(this);
+        sd->exec();
+    }
 }
 
 void MainWindow::on_add_char_button_clicked()
 {
-    Item* item = new Item;
+    Item* item = new Item(this, false);
     item->Show();
 
     if (item->LastItem()->index == max_number_chars - 1)
@@ -112,10 +116,11 @@ void MainWindow::ScrollBarToBottom()
     p->setValue(p->maximum());
 }
 
-Item::Item()
+Item::Item(MainWindow* mw, bool created_from_settings)
 {
     next_item = 0;
     prev_item = last_item;
+    parent_window = mw;
 
     if (!first_item)
     {
@@ -176,12 +181,20 @@ Item::Item()
     g_scene = new QGraphicsScene(QRectF(0, 0, g_view->geometry().width(), g_view->geometry().height()), 0);
     pixmap = new QPixmap;
 
-    mainwindow_ptr->char_vert_layout->addWidget(group_box);
+    parent_window->char_vert_layout->addWidget(group_box);
 
     connect(delete_button, SIGNAL(clicked()), this, SLOT(DeleteClicked()));
     connect(img_button, SIGNAL(clicked()), this, SLOT(ImgButtonClicked()));
     connect(model_button, SIGNAL(clicked()), this, SLOT(ModelButtonClicked()));
     connect(img_edit, SIGNAL(textChanged(QString)), this, SLOT(UpdateImage()));
+    
+    /*created_from_settings says if this object was created while reading the settings. In ReadSettings(), the texts in the lineedits are changes which would trigger these Signals and set settings_saved to false*/
+    if (!created_from_settings)
+    {
+        connect(img_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
+        connect(model_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
+        connect(name_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
+    }
 }
 
 Item::~Item()
@@ -244,11 +257,61 @@ void Item::UpdateImage()
 	g_view->setScene(g_scene);
 }
 
+void Item::SettingChanged()
+{                                        
+    parent_window->settings_saved = false;
+}
+
+SaveDialog::SaveDialog(MainWindow* mw)
+{
+    parent_window = mw;
+    setupUi(this);
+    connect(discard_button, SIGNAL(clicked()), this, SLOT(DiscardClicked()));
+    connect(save_button, SIGNAL(clicked()), this, SLOT(SaveClicked()));
+}
+
+SaveDialog::~SaveDialog()
+{
+}
+
+void SaveDialog::SaveClicked()
+{
+    SaveSettings(parent_window);
+    parent_window->close();
+    app->quit();
+}
+
+void SaveDialog::DiscardClicked()
+{
+    parent_window->close();
+    app->quit();
+}
+
+void SaveSettings(MainWindow* mw)
+{
+    QSettings settings("settings", QSettings::NativeFormat);
+    settings.setIniCodec("UTF-8");
+
+    settings.beginGroup("Characters");
+    settings.setValue("nb_chars", Item::LastItem()->index + 1);
+    for (Item* c = Item::FirstItem(); c; c = c->NextItem())
+    {
+        settings.setValue(QString("char_name%1").arg(c->index), c->name_edit->text());
+        settings.setValue(QString("char_image%1").arg(c->index), c->img_edit->text());
+        settings.setValue(QString("char_model%1").arg(c->index), c->model_edit->text());
+    }
+    settings.endGroup();
+
+    mw->settings_saved = true;
+    mw->status_label->setText("Settings Saved!");
+}
+
+
 int main(int c, char*p[])
 {
     app = new QApplication(c, p);
     mainwindow_ptr = new MainWindow;
-    mainwindow_ptr->ReadSettings();
+    ReadSettings(mainwindow_ptr);
     mainwindow_ptr->show();
     return app->exec();
 }

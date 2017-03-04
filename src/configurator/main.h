@@ -18,6 +18,7 @@
 #include <QGraphicsView>
 
 #include "configurator_ui.h"
+#include "../../build/configurator/save_dialog_ui.h"
 
 const int max_number_chars = 30;
 
@@ -31,9 +32,11 @@ class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui::
     void ReadSettings();
     void ScrollBarToBottom();
     QPixmap char_pixmap;
+    bool settings_saved;
+
     public slots:
-        void QuitClicked();
-    void SaveSettings();
+    void QuitClicked();
+    void SaveClicked();
     void on_add_char_button_clicked();
 
 };
@@ -47,9 +50,10 @@ class Item : public QWidget
     Item* next_item;
 
     public:
-    Item();
+    Item(MainWindow*, bool);
     ~Item();
     int index;
+    MainWindow* parent_window;
 
     QGroupBox* 	        group_box;
     QLabel*		label;
@@ -94,16 +98,21 @@ class Item : public QWidget
         void ImgButtonClicked();
         void ModelButtonClicked();
         void UpdateImage();
-//        void ImgTextChanged();
+        void SettingChanged();
 };
 
-class Character: public Item
+class SaveDialog: public QDialog, public Ui::SaveDialog
 {
-    static Item* first_character;
-    static Item* last_character;
-    static Item* FirstCharacter()	{ return first_character;	};
-    static Item* LastCharacter()	{ return last_character;	};
+    Q_OBJECT;
+    public:
+        SaveDialog(MainWindow*);
+        ~SaveDialog();
+        MainWindow* parent_window;
+    public slots:
+        void SaveClicked();
+        void DiscardClicked();
 };
 
+void SaveSettings(MainWindow*);
 #endif // __MAIN_H
 
