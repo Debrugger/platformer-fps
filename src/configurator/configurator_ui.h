@@ -28,10 +28,13 @@ class Ui_ConfiguratorMainWindow
         QPushButton *saveButton;
         QPushButton *quitButton;
         QPushButton* add_char_button;
+        QPushButton* add_map_button;
         QLabel *status_label;
         QStatusBar *statusbar;
         QScrollArea* char_scroll_area;
         QBoxLayout* char_vert_layout;
+        QScrollArea* map_scroll_area;
+        QBoxLayout* map_vert_layout;
 
         QTabWidget* tab_widget;
         QWidget* char_tab;
@@ -41,6 +44,7 @@ class Ui_ConfiguratorMainWindow
         QPushButton* char_img_button[30];
 
         QWidget* char_widget;
+        QWidget* map_widget;
                
         void setupUi(QMainWindow *ConfiguratorMainWindow)
         {
@@ -73,6 +77,18 @@ class Ui_ConfiguratorMainWindow
             char_vert_layout->setSizeConstraint(QLayout::SetFixedSize); //widgets in the layout have a fixed size
             char_scroll_area->setWidget(char_widget);
 
+            map_scroll_area = new QScrollArea(map_tab);
+            map_scroll_area->setObjectName(QStringLiteral("char_scroll_area"));
+            map_scroll_area->setGeometry(QRect(5, 30, 652, 485));
+
+            map_widget = new QWidget;
+            map_widget->setGeometry(QRect(10, 10, 630, 545));
+            map_vert_layout = new QVBoxLayout(map_widget);
+            map_vert_layout->setObjectName(QStringLiteral("map_vert_layout"));
+            map_vert_layout->setGeometry(QRect(10, 10, 630, 545));
+            map_vert_layout->setSizeConstraint(QLayout::SetFixedSize); //widgets in the layout have a fixed size
+            map_scroll_area->setWidget(map_widget);
+
             saveButton = new QPushButton(centralwidget);
             saveButton->setObjectName(QStringLiteral("saveButton"));
             saveButton->setGeometry(QRect(330, 560, 120, 20));
@@ -82,12 +98,17 @@ class Ui_ConfiguratorMainWindow
 
             status_label = new QLabel(centralwidget);
             status_label->setObjectName(QStringLiteral("status_label"));
-            status_label->setGeometry(QRect(70, 560, 181, 20));
+            status_label->setGeometry(QRect(70, 560, 280, 20));
 
             add_char_button = new QPushButton(char_tab);
             add_char_button->setObjectName(QStringLiteral("add_char_button"));
             add_char_button->setText("Add character");
             add_char_button->setGeometry(QRect(5, 5, 150, 20));
+
+            add_map_button = new QPushButton(map_tab);
+            add_map_button->setObjectName(QStringLiteral("add_map_button"));
+            add_map_button->setText("Add map");
+            add_map_button->setGeometry(QRect(5, 5, 150, 20));
 
             ConfiguratorMainWindow->setCentralWidget(centralwidget);
             statusbar = new QStatusBar(ConfiguratorMainWindow);

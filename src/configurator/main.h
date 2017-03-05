@@ -21,6 +21,16 @@
 #include "../../build/configurator/save_dialog_ui.h"
 
 const int max_number_chars = 30;
+const int max_number_maps = 5;
+
+class Item;
+class ItemList;
+
+enum ItemType
+{
+	character,
+	map
+};
 
 class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
 {
@@ -30,7 +40,7 @@ class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui::
     virtual ~MainWindow();
 
     void ReadSettings();
-    void ScrollBarToBottom();
+    void ScrollBarToBottom(QScrollBar*);
     QPixmap char_pixmap;
     bool settings_saved;
 
@@ -38,67 +48,67 @@ class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui::
     void QuitClicked();
     void SaveClicked();
     void on_add_char_button_clicked();
+	 void on_add_map_button_clicked();
 
 };
 
 class Item : public QWidget
 {
-    Q_OBJECT;
-    static Item* first_item;
-    static Item* last_item;
-    Item* prev_item;
-    Item* next_item;
+	Q_OBJECT;
+	Item* prev_item;
+	Item* next_item;
+	ItemList* parent_list;
+	ItemType type;
 
-    public:
-    Item(MainWindow*, bool);
-    ~Item();
-    int index;
-    MainWindow* parent_window;
+	public:
+	Item(ItemList*, MainWindow*, bool, ItemType);
+	~Item();
+	int index;
+	bool created_from_settings;
+	MainWindow* parent_window;
 
-    QGroupBox* 	        group_box;
-    QLabel*		label;
-    QLabel*             name_label;
-    QLabel*             img_label;
-    QPushButton*	img_button;
-    QLineEdit*	        img_edit;
-    QLabel*             model_label;
-    QPushButton*	model_button;
-    QLineEdit*	        model_edit;
-    QLineEdit*          name_edit;
-    QToolButton*	delete_button;
-    QGraphicsView*      g_view;
-    QGraphicsScene*     g_scene;
-    QPixmap*            pixmap;
+	QGroupBox* 	        group_box;
+	QLabel*		label;
+	QLabel*             name_label;
+	QLabel*             img_label;
+	QPushButton*	img_button;
+	QLineEdit*	        img_edit;
+	QLabel*             model_label;
+	QPushButton*	model_button;
+	QLineEdit*	        model_edit;
+	QLineEdit*          name_edit;
+	QToolButton*	delete_button;
+	QGraphicsView*      g_view;
+	QGraphicsScene*     g_scene;
+	QPixmap*            pixmap;
 
-    static Item* FirstItem()	{ return first_item;	};
-    static Item* LastItem()	{ return last_item;	};
-    Item* PrevItem()				{ return prev_item;	};
-    Item* NextItem()				{ return next_item;	};
+	Item* PrevItem()				{ return prev_item;	};
+	Item* NextItem()				{ return next_item;	};
 
-    void Show()
-    {
-        group_box->show();
-        label->show();
-        name_label->show();
-        delete_button->show();
-        img_edit->show();    
-        model_edit->show();  
-        img_button->show();    
-        model_button->show();                           
-        img_label->show();
-        model_label->show();
-        name_edit->show();
-        g_view->show();
-    };                       
+	void SetupUi();
+	void Show();
+	void NumberElements();   
 
-    void NumberElements();   
+	public slots:
+		void DeleteClicked();
+	void ImgButtonClicked();
+	void ModelButtonClicked();
+	void UpdateImage();
+	void SettingChanged();
+};
 
-    public slots:
-        void DeleteClicked();
-        void ImgButtonClicked();
-        void ModelButtonClicked();
-        void UpdateImage();
-        void SettingChanged();
+class ItemList
+{
+	Item* first_item;
+	Item* last_item;
+
+	public:
+	ItemList();
+	~ItemList();
+	inline Item* FirstItem()	{ return first_item; };
+	inline Item* LastItem()		{ return last_item; };
+	void SetLastItem(Item*);
+	void SetFirstItem(Item*);
 };
 
 class SaveDialog: public QDialog, public Ui::SaveDialog
