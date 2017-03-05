@@ -35,4 +35,3 @@ int main(int c, char *p[])
 	app->exec();
 	return 0;
 }
-

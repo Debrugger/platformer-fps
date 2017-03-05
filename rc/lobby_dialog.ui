@@ -31,31 +31,6 @@
       <height>81</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>Character 1</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Character 2</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Character 3</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Character 4</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Character 5</string>
-     </property>
-    </item>
    </widget>
    <widget class="QGraphicsView" name="characterView">
     <property name="geometry">
@@ -135,31 +110,6 @@
       <height>141</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>World 1</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 2</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 3</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 4</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>World 5</string>
-     </property>
-    </item>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar">

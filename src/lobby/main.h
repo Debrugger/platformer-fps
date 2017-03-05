@@ -14,6 +14,7 @@
 #include <QImage>
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
+#include <QString>
 #include <QFileDialog>
 
 #include "../../build/lobby/lobby_dialog_ui.h"
@@ -48,6 +49,12 @@ public slots:
 	void on_cancel_button_clicked();
 };
 
+struct Item
+{
+	QString image_path;
+	QString file_path;
+	QString name;
+};
 
 #endif // __MAIN_H
 
