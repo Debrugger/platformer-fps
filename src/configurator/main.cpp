@@ -14,6 +14,7 @@
 
 #include "main.h"
 #include "configurator_ui.h"
+#include "error_ui.h"
 #include "../../build/configurator/save_dialog_ui.h"
 
 QApplication* app;
@@ -21,6 +22,8 @@ MainWindow* mainwindow_ptr;
 
 ItemList* char_list;
 ItemList* map_list;
+
+ErrorDialog* err_dialog;
 
 MainWindow::MainWindow()
 {
@@ -60,7 +63,7 @@ void ReadSettings(MainWindow* mw)
 
 	if (nb_chars > max_number_chars)
 	{
-		mw->status_label->setText("Error in config file, too many characters");
+		throw(MainWindow::TooManyItems);
 		return;
 	}
 	for (int i = 0; i < nb_chars; i++)
@@ -409,12 +412,41 @@ void SaveSettings(MainWindow* mw)
 	mw->status_label->setText("Settings Saved!");
 }
 
+ErrorDialog::ErrorDialog(QString msg)
+{
+	setupUi(this);
+	msg_label->setText(msg);
+}
+
+ErrorDialog::~ErrorDialog()
+{
+}
+
+void ErrorDialog::on_ok_button_clicked()
+{
+	close();
+}
 
 int main(int c, char*p[])
 {
+	try
+	{
 	app = new QApplication(c, p);
 	mainwindow_ptr = new MainWindow;
 	ReadSettings(mainwindow_ptr);
 	mainwindow_ptr->show();
 	return app->exec();
+	}
+	catch(int& e)
+	{
+		switch(e)
+		{
+			case MainWindow::TooManyItems:
+				{
+					err_dialog = new ErrorDialog("Too many items in config file");
+					err_dialog->exec();
+					break;
+				}
+		}
+	}
 }

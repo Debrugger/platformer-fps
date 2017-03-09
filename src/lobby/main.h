@@ -4,7 +4,6 @@
 #include <QDialog>
 #include <QDebug>
 #include <QSettings>
-
 #include <QLabel>
 #include <QPushButton>
 #include <QString>
@@ -16,13 +15,18 @@
 #include <QPixmap>
 #include <QString>
 #include <QFileDialog>
+#include <QScrollBar>
 
 #include "../../build/lobby/lobby_dialog_ui.h"
 #include "../../build/lobby/connect_dialog_ui.h"
 
+
 class LobbyDialog : public QDialog, public Ui::LobbyDialog  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
 {
 	Q_OBJECT;
+
+   const int BrokenConfig = 20; //internal excaption in constructor
+
 public:
 	LobbyDialog();
 	virtual ~LobbyDialog();
@@ -32,6 +36,10 @@ public:
 	QPixmap char_pixmap;
 	QPixmap map_pixmap;
 	void UpdateImage(QGraphicsView*&, QGraphicsScene*&, QPixmap&, QString&);
+	void LogPrint(const QString&);
+
+   static const int FailedToBuild = 10;
+
 public slots:
 	void OnCharListChanged();
 	void OnMapListChanged();

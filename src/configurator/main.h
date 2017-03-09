@@ -17,11 +17,10 @@
 #include <QScrollBar>
 #include <QGraphicsView>
 
+#include "../common.h"
 #include "configurator_ui.h"
+#include "error_ui.h"
 #include "../../build/configurator/save_dialog_ui.h"
-
-const int max_number_chars = 30;
-const int max_number_maps = 5;
 
 class Item;
 class ItemList;
@@ -32,9 +31,22 @@ enum ItemType
 	map
 };
 
+class ErrorDialog : public QDialog, public Ui::ErrorDialog
+{
+	Q_OBJECT;
+
+	public:
+	ErrorDialog(QString);
+	virtual ~ErrorDialog();
+
+	public slots:
+		void on_ok_button_clicked();
+};
+
 class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
 {
     Q_OBJECT;
+
     public:
     MainWindow();
     virtual ~MainWindow();
@@ -43,6 +55,8 @@ class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui::
     void ScrollBarToBottom(QScrollBar*);
     QPixmap char_pixmap;
     bool settings_saved;
+
+	 static const int TooManyItems = 30;
 
     public slots:
     void QuitClicked();

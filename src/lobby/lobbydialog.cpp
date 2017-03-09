@@ -12,8 +12,8 @@
 
 #include <QApplication>
 
+#include "../common.h"
 #include "main.h"
-
 
 QGraphicsScene* char_view_scene; /*needs to be global because scene gets deleted when out of scope otherwise*/
 QGraphicsScene* map_view_scene;
@@ -38,30 +38,57 @@ LobbyDialog::LobbyDialog()
 	mapView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); /*no scroll bars in the image*/
 	mapView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+	map_edit->setReadOnly(true);
+	character_edit->setReadOnly(true);
+	log_edit->setReadOnly(true);
+
    char_view_scene = new QGraphicsScene(QRectF(0, 0, characterView->geometry().width(), characterView->geometry().height()), 0);
    map_view_scene = new QGraphicsScene(QRectF(0, 0, mapView->geometry().width(), mapView->geometry().height()), 0);
 
-	ReadSettings();
-
-	for (int i = 0; i < nb_chars; i++)
+	try
 	{
-		characterList->addItem(characters.at(i)->name);
+		ReadSettings();
+
+		for (int i = 0; i < nb_chars; i++)
+		{
+			characterList->addItem(characters.at(i)->name);
+		}
+
+		for (int i = 0; i < nb_maps; i++)
+		{
+			mapList->addItem(maps.at(i)->name);
+		}
+
+		UpdateImage(characterView, char_view_scene, char_pixmap, characters.at(characterList->currentRow())->image_path); /*Set up graphics view for character picture*/
+		UpdateImage(mapView, map_view_scene, map_pixmap, maps.at(mapList->currentRow())->image_path);
+	}
+	catch(int& i)
+	{
+		if(i == BrokenConfig)	//20
+		{
+			LogPrint("Config file is corrupt. Error code 20");
+			close();
+		}
+		throw(FailedToBuild);
 	}
 
-	for (int i = 0; i < nb_maps; i++)
-	{
-	  	mapList->addItem(maps.at(i)->name);
-	}
 
 	characterList->setCurrentRow(0);
 	mapList->setCurrentRow(0);
 
-	UpdateImage(characterView, char_view_scene, char_pixmap, characters.at(characterList->currentRow())->image_path); /*Set up graphics view for character picture*/
-	UpdateImage(mapView, map_view_scene, map_pixmap, maps.at(mapList->currentRow())->image_path);
 }
 
 LobbyDialog::~LobbyDialog()
 {
+}
+
+void LobbyDialog::LogPrint(const QString& msg)
+{
+	QDebug db = qDebug();
+	db.noquote();
+	log_edit->append(msg);
+	log_edit->verticalScrollBar()->setValue(log_edit->verticalScrollBar()->maximum());
+	db << msg;
 }
 
 void LobbyDialog::on_quitButton_clicked()
@@ -99,24 +126,43 @@ void LobbyDialog::ReadSettings()
 	settings.beginGroup("Characters");
    nb_chars = settings.value("nb_chars").toInt();
 
-	characters.resize(nb_chars);
-   for (int i = 0; i < nb_chars; i++)
+	if (nb_chars <= max_number_chars)
 	{
-      characters.at(i) = new Item;
-		characters.at(i)->name = settings.value(QString("char_name%1").arg(i)).toString();
-		characters.at(i)->image_path = settings.value(QString("char_image%1").arg(i)).toString();
+		characters.resize(nb_chars);
+		for (int i = 0; i < nb_chars; i++)
+		{
+			characters.at(i) = new Item;
+			characters.at(i)->name = settings.value(QString("char_name%1").arg(i)).toString();
+			characters.at(i)->image_path = settings.value(QString("char_image%1").arg(i)).toString();
+			LogPrint("Loaded character " + characters.at(i)->name + " with image " + characters.at(i)->image_path);
+		}
+	}
+	else
+	{
+		LogPrint(QString("Too many characters in config file, maximum is %1").arg(max_number_chars));
+		throw(BrokenConfig);
 	}
 	settings.endGroup();
 
 	settings.beginGroup("Maps");
    nb_maps = settings.value("nb_maps").toInt();
 
-	maps.resize(nb_maps);
-   for (int i = 0; i < nb_maps; i++)
+
+	if (nb_maps <= max_number_maps)
 	{
-      maps.at(i) = new Item;
-		maps.at(i)->name = settings.value(QString("map_name%1").arg(i)).toString();
-		maps.at(i)->image_path = settings.value(QString("map_image%1").arg(i)).toString();
+		maps.resize(nb_maps);
+		for (int i = 0; i < nb_maps; i++)
+		{
+			maps.at(i) = new Item;
+			maps.at(i)->name = settings.value(QString("map_name%1").arg(i)).toString();
+			maps.at(i)->image_path = settings.value(QString("map_image%1").arg(i)).toString();
+			LogPrint("Loaded map " + maps.at(i)->name + " with image " + maps.at(i)->image_path);
+		}
+	}
+	else
+	{
+		LogPrint(QString("Too many maps in config file, maximum is %1").arg(max_number_maps));
+		throw(BrokenConfig);
 	}
 	settings.endGroup();
 }
