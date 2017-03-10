@@ -14,7 +14,7 @@
 
 #include "main.h"
 #include "configurator_ui.h"
-#include "error_ui.h"
+#include "../../build/configurator/error_dialog_ui.h"
 #include "../../build/configurator/save_dialog_ui.h"
 
 QApplication* app;
@@ -54,7 +54,7 @@ MainWindow::~MainWindow()
 
 void ReadSettings(MainWindow* mw)
 {
-	QSettings settings("settings", QSettings::NativeFormat);
+	QSettings settings(config_file_name, QSettings::NativeFormat);
 	int nb_chars = 0;
 	int nb_maps = 0;
 
@@ -63,7 +63,7 @@ void ReadSettings(MainWindow* mw)
 
 	if (nb_chars > max_number_chars)
 	{
-		throw(MainWindow::TooManyItems);
+		throw(MainWindow::TooManyChars);
 		return;
 	}
 	for (int i = 0; i < nb_chars; i++)
@@ -87,7 +87,7 @@ void ReadSettings(MainWindow* mw)
 
 	if (nb_maps > max_number_maps)
 	{
-		mw->status_label->setText("Error in config file, too many maps");
+		throw(MainWindow::TooManyMaps);
 		return;
 	}
 	for (int i = 0; i < nb_maps; i++)
@@ -385,7 +385,7 @@ void SaveDialog::DiscardClicked()
 
 void SaveSettings(MainWindow* mw)
 {
-	QSettings settings("settings", QSettings::NativeFormat);
+	QSettings settings(config_file_name, QSettings::NativeFormat);
 	settings.setIniCodec("UTF-8");
 
 	settings.beginGroup("Characters");
@@ -416,15 +416,28 @@ ErrorDialog::ErrorDialog(QString msg)
 {
 	setupUi(this);
 	msg_label->setText(msg);
+
+	connect(repair_button, SIGNAL(clicked()), this, SLOT(RepairConfigFile()));
+	connect(delete_button, SIGNAL(clicked()), this, SLOT(DeleteConfigFile()));
 }
 
 ErrorDialog::~ErrorDialog()
 {
 }
 
-void ErrorDialog::on_ok_button_clicked()
+void ErrorDialog::on_quit_button_clicked()
 {
 	close();
+}
+
+void ErrorDialog::RepairConfigFile()
+{
+}
+
+void ErrorDialog::DeleteConfigFile()
+{
+	QFile config("settings");
+	config.remove();
 }
 
 int main(int c, char*p[])
@@ -441,12 +454,18 @@ int main(int c, char*p[])
 	{
 		switch(e)
 		{
-			case MainWindow::TooManyItems:
+			case MainWindow::TooManyChars:
 				{
-					err_dialog = new ErrorDialog("Too many items in config file");
+					err_dialog = new ErrorDialog(QString("Too many player characters. The maximum is %1").arg(max_number_chars));
 					err_dialog->exec();
 					break;
-				}
-		}
+				};
+			case MainWindow::TooManyMaps:
+				{
+					err_dialog = new ErrorDialog(QString("Too many player maps. The maximum is %1").arg(max_number_maps));
+					err_dialog->exec();
+					break;
+				};
+		};
 	}
 }

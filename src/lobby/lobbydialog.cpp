@@ -120,7 +120,7 @@ void LobbyDialog::OnMapListChanged()
 
 void LobbyDialog::ReadSettings()
 {
-	QSettings settings("settings", QSettings::NativeFormat);
+	QSettings settings(config_file_name, QSettings::NativeFormat);
 	settings.setIniCodec("UTF-8");
 
 	settings.beginGroup("Characters");

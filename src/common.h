@@ -7,5 +7,7 @@
 const int max_number_chars = 30;
 const int max_number_maps = 5;
 
+const QString config_file_name = "charmaps.conf";
+
 
 #endif //_COMMON_H

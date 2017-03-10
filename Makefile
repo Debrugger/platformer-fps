@@ -40,20 +40,25 @@ build/lobby/%.o: src/lobby/%.cpp build/lobby/lobby_dialog_ui.h build/lobby/conne
 	@g++ -c $(FLAGS) $(INCLUDES) -o $@ $<
 
 
-build/configurator/%.o: src/configurator/%.cpp build/configurator/save_dialog_ui.h
+build/configurator/%.o: src/configurator/%.cpp build/configurator/save_dialog_ui.h build/configurator/error_dialog_ui.h
 	@echo "compiling $<...."
 	@g++ -c $(FLAGS) $(INCLUDES) -o $@ $<
+
 ######################################ui_h's##################################################
 
 build/lobby/lobby_dialog_ui.h: rc/lobby_dialog.ui src/lobby/moc_main.cpp
 	@echo "generating $@ ..."
 	@uic $< -o $@
 
-build/configurator/save_dialog_ui.h: rc/save_dialog.ui src/configurator/moc_main.cpp
+build/lobby/connect_dialog_ui.h: rc/connect_dialog.ui src/lobby/moc_main.cpp
 	@echo "generating $@..."
 	@uic $< -o $@
 
-build/lobby/connect_dialog_ui.h: rc/connect_dialog.ui src/lobby/moc_main.cpp
+build/configurator/save_dialog_ui.h: rc/save_dialog.ui src/configurator/moc_main.cpp
+	@echo "generating $@..."
+	@uic $< -o $@
+	
+build/configurator/error_dialog_ui.h: rc/error_dialog.ui src/configurator/moc_main.cpp
 	@echo "generating $@..."
 	@uic $< -o $@
 #####################################moc######################################################

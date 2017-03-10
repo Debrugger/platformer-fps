@@ -19,7 +19,7 @@
 
 #include "../common.h"
 #include "configurator_ui.h"
-#include "error_ui.h"
+#include "../../build/configurator/error_dialog_ui.h"
 #include "../../build/configurator/save_dialog_ui.h"
 
 class Item;
@@ -40,7 +40,9 @@ class ErrorDialog : public QDialog, public Ui::ErrorDialog
 	virtual ~ErrorDialog();
 
 	public slots:
-		void on_ok_button_clicked();
+	void on_quit_button_clicked();
+	void RepairConfigFile();
+	void DeleteConfigFile();
 };
 
 class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
@@ -56,7 +58,8 @@ class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui::
     QPixmap char_pixmap;
     bool settings_saved;
 
-	 static const int TooManyItems = 30;
+	 static const int TooManyChars = 31;
+	 static const int TooManyMaps = 32;
 
     public slots:
     void QuitClicked();
