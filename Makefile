@@ -19,6 +19,7 @@ all: $(APP_NAME)
 
 sinclude .depend
 ######################################Binaries################################################
+
 $(CON_NAME): $(CONF_OBJLIST)
 	@echo	"linking $(CON_NAME)..."
 	@g++ $(FLAGS) -o $(CON_NAME) build/configurator/main.o build/configurator/moc_main.o $(LIBS)
@@ -33,6 +34,7 @@ $(APP_NAME): $(OBJLIST)
 	@echo ""
 	@stat -c '%n      %s Bytes' $@
 	@echo ""
+
 ######################################.o's####################################################
 
 build/lobby/%.o: src/lobby/%.cpp build/lobby/lobby_dialog_ui.h build/lobby/connect_dialog_ui.h
@@ -61,6 +63,7 @@ build/configurator/save_dialog_ui.h: rc/save_dialog.ui src/configurator/moc_main
 build/configurator/error_dialog_ui.h: rc/error_dialog.ui src/configurator/moc_main.cpp
 	@echo "generating $@..."
 	@uic $< -o $@
+
 #####################################moc######################################################
 
 src/lobby/moc_%.cpp: src/lobby/%.h
