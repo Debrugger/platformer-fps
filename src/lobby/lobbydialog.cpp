@@ -124,7 +124,7 @@ void LobbyDialog::ReadSettings()
 	settings.setIniCodec("UTF-8");
 
 	settings.beginGroup("Characters");
-   nb_chars = settings.value("nb_chars").toInt();
+   nb_chars = settings.value("nb").toInt();
 
 	if (nb_chars <= max_number_chars)
 	{
@@ -132,8 +132,8 @@ void LobbyDialog::ReadSettings()
 		for (int i = 0; i < nb_chars; i++)
 		{
 			characters.at(i) = new Item;
-			characters.at(i)->name = settings.value(QString("char_name%1").arg(i)).toString();
-			characters.at(i)->image_path = settings.value(QString("char_image%1").arg(i)).toString();
+			characters.at(i)->name = settings.value(QString("name%1").arg(i)).toString();
+			characters.at(i)->image_path = settings.value(QString("image%1").arg(i)).toString();
 			LogPrint("Loaded character " + characters.at(i)->name + " with image " + characters.at(i)->image_path);
 		}
 	}
@@ -145,7 +145,7 @@ void LobbyDialog::ReadSettings()
 	settings.endGroup();
 
 	settings.beginGroup("Maps");
-   nb_maps = settings.value("nb_maps").toInt();
+   nb_maps = settings.value("nb").toInt();
 
 
 	if (nb_maps <= max_number_maps)
@@ -154,8 +154,8 @@ void LobbyDialog::ReadSettings()
 		for (int i = 0; i < nb_maps; i++)
 		{
 			maps.at(i) = new Item;
-			maps.at(i)->name = settings.value(QString("map_name%1").arg(i)).toString();
-			maps.at(i)->image_path = settings.value(QString("map_image%1").arg(i)).toString();
+			maps.at(i)->name = settings.value(QString("name%1").arg(i)).toString();
+			maps.at(i)->image_path = settings.value(QString("image%1").arg(i)).toString();
 			LogPrint("Loaded map " + maps.at(i)->name + " with image " + maps.at(i)->image_path);
 		}
 	}

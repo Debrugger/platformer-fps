@@ -75,7 +75,6 @@ class Item : public QWidget
 	Item* prev_item;
 	Item* next_item;
 	ItemList* parent_list;
-	ItemType type;
 
 	public:
 	Item(ItemList*, MainWindow*, bool, ItemType);
@@ -84,20 +83,21 @@ class Item : public QWidget
 	bool created_from_settings;
 	MainWindow* parent_window;
 
-	QGroupBox* 	        group_box;
-	QLabel*		label;
-	QLabel*             name_label;
-	QLabel*             img_label;
-	QPushButton*	img_button;
-	QLineEdit*	        img_edit;
-	QLabel*             model_label;
-	QPushButton*	model_button;
-	QLineEdit*	        model_edit;
-	QLineEdit*          name_edit;
-	QToolButton*	delete_button;
-	QGraphicsView*      g_view;
-	QGraphicsScene*     g_scene;
-	QPixmap*            pixmap;
+	ItemType type;
+	QGroupBox*			group_box;
+	QLabel*				label;
+	QLabel*           name_label;
+	QLabel*           img_label;
+	QPushButton*		img_button;
+	QLineEdit*	      img_edit;
+	QLabel*           model_label;
+	QPushButton*		model_button;
+	QLineEdit*	      model_edit;
+	QLineEdit*			name_edit;
+	QToolButton*	  	delete_button;
+	QGraphicsView*    g_view;
+	QGraphicsScene*   g_scene;
+	QPixmap*          pixmap;
 
 	Item* PrevItem()				{ return prev_item;	};
 	Item* NextItem()				{ return next_item;	};
@@ -107,7 +107,7 @@ class Item : public QWidget
 	void NumberElements();   
 
 	public slots:
-		void DeleteClicked();
+	void DeleteClicked();
 	void ImgButtonClicked();
 	void ModelButtonClicked();
 	void UpdateImage();
