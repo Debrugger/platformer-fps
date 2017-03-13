@@ -5,7 +5,7 @@ FLAGS   	:= -g -Wall -fdiagnostics-color=never -fno-diagnostics-show-caret -DARC
 
 MOCLIST	:= $(patsubst src/include/%.h,build/%.genmoc,$(wildcard src/include/*.h))
 UICLIST	:= $(patsubst src/ui/%.ui,build/%.genh,$(wildcard src/ui/*.ui))
-OBJLIST	:= $(patsubst src/cpp/%.cpp,build/%.o,$(wildcard src/src/*.cpp)) $(patsubst build/%.genmoc,build/%.geno,$(MOCLIST))
+OBJLIST	:= $(patsubst src/cpp/%.cpp,build/%.o,$(wildcard src/cpp/*.cpp)) $(patsubst build/%.genmoc,build/%.geno,$(MOCLIST))
 
 DEFINES 	:= -DQT_GUI_LIB -DQT_CORE_LIB -D_REENTRANT
 LIBS		:= -lGL -lGLU -lQt5Core -lQt5Gui -lQt5Widgets -lpng
@@ -44,7 +44,7 @@ build/%.geno: build/%.genmoc
 build/%.genmoc: src/include/%.h
 	@echo "mocking $@ ..."
 	@touch $@
-	@moc --no-notes $(DEFINES) $(INCLUDES)  $< -o $@
+	@moc $(DEFINES) $(INCLUDES)  $< -o $@
 
 build/%.genh: src/ui/%.ui build/%.genmoc
 	@echo "UIC-ing $@ ..."
