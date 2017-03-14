@@ -1,10 +1,16 @@
-#include "../include/sysinc.h"
-#include "../include/qtinc.h"
-#include "../include/globals.h"
+#include "sysinc.h"
+#include "qtinc.h"
+#include "globals.h"
+#include "common.h"
+#include "mainwindow.h"
+#include "tools.h"
+#include "error_dialog.h"
 
-#include "../inlude/mainwindow.h"
-#include "../inlude/tools.h"
-#include "../inlude/errordialog.h"
+MainWindow* mainwindow_ptr;
+QApplication* app;
+ItemList* char_list;
+ItemList* map_list;
+ErrorDialog* err_dialog;
 
 int main(int c, char*p[])
 {

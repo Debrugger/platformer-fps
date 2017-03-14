@@ -1,6 +1,9 @@
-#include "../include/sysinc.h"
-#include "../include/qtinc.h"
-#include "../include/item.h"
+#include "sysinc.h"
+#include "qtinc.h"
+#include "common.h"
+#include "globals.h"
+#include "item.h"
+#include "itemlist.h"
 
 Item::Item(ItemList* pl, MainWindow* mw, bool created_from_settings, ItemType _type)
 {

@@ -1,4 +1,10 @@
-#include "../include/tools.h"
+#include "qtinc.h"
+#include "common.h"
+#include "globals.h"
+#include "item.h"
+#include "itemlist.h"
+#include "mainwindow.h"
+#include "tools.h"
 
 void ReadSettings(MainWindow* mw)
 {

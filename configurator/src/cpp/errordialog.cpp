@@ -1,4 +1,4 @@
-#include "../include/error_dialog.h"
+#include "error_dialog.h"
 
 ErrorDialog::ErrorDialog(QString msg)
 {

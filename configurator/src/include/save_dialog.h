@@ -1,5 +1,9 @@
-#include "../include/qtinc.h"
-#include "../../build/save_dialog_ui.genh"
+#ifndef __SAVE_DIALOG_H
+#define __SAVE_DIALOG_H
+
+#include "qtinc.h"
+#include "build/save_dialog.ui.h"
+#include "mainwindow.h"
 
 class SaveDialog: public QDialog, public Ui::SaveDialog
 {
@@ -12,3 +16,5 @@ class SaveDialog: public QDialog, public Ui::SaveDialog
         void SaveClicked();
         void DiscardClicked();
 };
+
+#endif //__SAVE_DIALOG_H

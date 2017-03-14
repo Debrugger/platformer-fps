@@ -1,11 +1,11 @@
-#include "../include/sysinc.h"
-#include "../include/qtinc.h"
-#include "../include/globals.h"
-
-#include "../include/mainwindow.h"
-#include "../include/tools.h"
-#include "../include/savedialog.h"
-#include "../include/item.h"
+#include "sysinc.h"
+#include "qtinc.h"
+#include "globals.h"
+#include "itemlist.h"
+#include "common.h"
+#include "tools.h"
+#include "save_dialog.h"
+#include "item.h"
 
 MainWindow::MainWindow()
 {

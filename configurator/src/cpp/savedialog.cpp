@@ -1,3 +1,8 @@
+#include "common.h"
+#include "globals.h"
+#include "mainwindow.h"
+#include "save_dialog.h"
+#include "tools.h"
 
 SaveDialog::SaveDialog(MainWindow* mw)
 {

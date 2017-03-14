@@ -1,12 +1,13 @@
 #ifndef __ITEM_H
 #define __ITEM_H
 
-#include "../include/qtinc.h"
-#include "../include/mainwindow.h"
-
-class Item : public QWidget
+#include "qtinc.h"
+#include "mainwindow.h"
+#include "tools.h"
 
 class ItemList;
+
+class Item : public QWidget
 {
 	Q_OBJECT;
 	Item* prev_item;

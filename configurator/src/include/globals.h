@@ -1,18 +1,18 @@
 #ifndef __GLOBALS_H
 #define __GLOBALS_H
 
-#include "../include/sysinc.h"
-#include "../include/qtinc.h"
-#include "../include/mainwindow.h"
-#include "../include/itemlist.h"
-#include "../include/errordialog.h"
+#include "sysinc.h"
+#include "qtinc.h"
+#include "mainwindow.h"
+#include "itemlist.h"
+#include "error_dialog.h"
 
-QApplication* app;
-MainWindow* mainwindow_ptr;
+extern QApplication* app;
+extern MainWindow* mainwindow_ptr;
 
-ItemList* char_list;
-ItemList* map_list;
+extern ItemList* char_list;
+extern ItemList* map_list;
 
-ErrorDialog* err_dialog;
+extern ErrorDialog* err_dialog;
 
 #endif //__GLOBALS_H

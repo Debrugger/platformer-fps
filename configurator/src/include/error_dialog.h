@@ -1,8 +1,8 @@
 #ifndef __ERROR_DIALOG_H
 #define __ERROR_DIALOG_H
 
-#include "../include/qtinc.h"
-#include "../../build/error_dialog_ui.genh"
+#include "qtinc.h"
+#include "build/error_dialog.ui.h"
 
 class ErrorDialog : public QDialog, public Ui::ErrorDialog
 {

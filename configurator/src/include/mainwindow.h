@@ -1,8 +1,9 @@
 #ifndef __MAINWINDOW_H
 #define __MAINWINDOW_H
 
-#include "../include/qtinc.h"
-#include "../include/mainwindow_ui.h"
+#include "sysinc.h"
+#include "qtinc.h"
+#include "configurator_ui.h"
 
 class MainWindow : public QMainWindow, public Ui::ConfiguratorMainWindow  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
 {
