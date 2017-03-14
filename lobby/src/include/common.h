@@ -1,0 +1,1 @@
+../../../configurator/src/include/common.h

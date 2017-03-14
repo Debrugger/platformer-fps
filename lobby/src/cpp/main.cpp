@@ -1,22 +1,10 @@
-#include <math.h>
-#include <time.h>
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <stdlib.h>
-#include <string>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/fcntl.h>
+#include "sysinc.h"
+#include "qtinc.h"
 
-#include <QApplication>
-
-#include "../common.h"
-#include "main.h"
-#include "../../build/lobby/lobby_dialog_ui.h"
-#include "../../build/lobby/connect_dialog_ui.h"
-
-using namespace std;
+#include "lobby_dialog.h"
+#include "connect_dialog.h"
+#include "globals.h"
+#include "common.h"
 
 QApplication* app;
 
