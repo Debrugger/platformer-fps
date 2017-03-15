@@ -1,19 +1,9 @@
-#include <math.h>
-#include <time.h>
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <stdlib.h>
-#include <string>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/fcntl.h>
-#include <vector>
+#include "sysinc.h"
+#include "qtinc.h"
 
-#include <QApplication>
-
-#include "../common.h"
-#include "main.h"
+#include "common.h"
+#include "lobby_dialog.h"
+#include "item.h"
 
 QGraphicsScene* char_view_scene; /*needs to be global because scene gets deleted when out of scope otherwise*/
 QGraphicsScene* map_view_scene;
@@ -45,6 +35,9 @@ LobbyDialog::LobbyDialog()
    char_view_scene = new QGraphicsScene(QRectF(0, 0, characterView->geometry().width(), characterView->geometry().height()), 0);
    map_view_scene = new QGraphicsScene(QRectF(0, 0, mapView->geometry().width(), mapView->geometry().height()), 0);
 
+	characterList->setCurrentRow(0);
+	mapList->setCurrentRow(0);
+
 	try
 	{
 		ReadSettings();
@@ -59,8 +52,8 @@ LobbyDialog::LobbyDialog()
 			mapList->addItem(maps.at(i)->name);
 		}
 
-		UpdateImage(characterView, char_view_scene, char_pixmap, characters.at(characterList->currentRow())->image_path); /*Set up graphics view for character picture*/
-		UpdateImage(mapView, map_view_scene, map_pixmap, maps.at(mapList->currentRow())->image_path);
+		//UpdateImage(characterView, char_view_scene, char_pixmap, characters.at(characterList->currentRow())->image_path); /*Set up graphics view for character picture*/
+		//UpdateImage(mapView, map_view_scene, map_pixmap, maps.at(mapList->currentRow())->image_path);
 	}
 	catch(int& i)
 	{
@@ -71,10 +64,6 @@ LobbyDialog::LobbyDialog()
 		}
 		throw(FailedToBuild);
 	}
-
-
-	characterList->setCurrentRow(0);
-	mapList->setCurrentRow(0);
 
 }
 
@@ -128,6 +117,8 @@ void LobbyDialog::ReadSettings()
 
 	if (nb_chars <= max_number_chars)
 	{
+		std::cout << nb_chars << std::endl;
+
 		characters.resize(nb_chars);
 		for (int i = 0; i < nb_chars; i++)
 		{

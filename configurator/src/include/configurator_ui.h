@@ -1,5 +1,5 @@
-#ifndef CONFIGURATOR_UI_H
-#define CONFIGURATOR_UI_H
+#ifndef __CONFIGURATOR_UI_H
+#define __CONFIGURATOR_UI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
@@ -136,4 +136,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // CONFIGURATOR_UI_H
+#endif // __CONFIGURATOR_UI_H
