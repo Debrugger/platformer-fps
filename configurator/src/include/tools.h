@@ -1,6 +1,7 @@
 #ifndef __TOOLS_H
 #define __TOOLS_H
 
+#include "itemlist.h"
 #include "mainwindow.h"
 
 enum ItemType
@@ -9,6 +10,11 @@ enum ItemType
 	map
 };
 
+class ItemList;
+
 void SaveSettings(MainWindow*);
 void ReadSettings(MainWindow*);
+bool SearchForDuplicates(ItemList*);
+bool SearchForEmpty(ItemList*);
+
 #endif //__TOOLS_H

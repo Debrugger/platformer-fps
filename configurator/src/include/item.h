@@ -13,15 +13,8 @@ class Item : public QWidget
 	Item* prev_item;
 	Item* next_item;
 	ItemList* parent_list;
-
-	public:
-	Item(ItemList*, MainWindow*, bool, ItemType);
-	~Item();
 	int index;
-	bool created_from_settings;
-	MainWindow* parent_window;
 
-	ItemType type;
 	QGroupBox*			group_box;
 	QLabel*				label;
 	QLabel*           name_label;
@@ -37,12 +30,29 @@ class Item : public QWidget
 	QGraphicsScene*   g_scene;
 	QPixmap*          pixmap;
 
-	Item* PrevItem()				{ return prev_item;	};
-	Item* NextItem()				{ return next_item;	};
+	public:
+	Item(ItemList*, MainWindow*, bool, ItemType);
+	~Item();
+	bool created_from_settings;
+	MainWindow* parent_window;
 
+	ItemType type;
+
+	Item* PrevItem()				{ return prev_item;				};
+	Item* NextItem()				{ return next_item;				};
+	QString Name()					{ return name_edit->text();	};
+	QString Model()				{ return model_edit->text();	};
+	QString Image()				{ return img_edit->text();		};
+	int Index()						{ return index;					};
+
+	void ConnectSettingsSlots();
 	void SetupUi();
 	void Show();
 	void NumberElements();   
+
+	void SetImgText(QString s)		{ img_edit->setText(s);		};
+	void SetNameText(QString s)  	{ name_edit->setText(s);	};
+	void SetModelText(QString s)	{ model_edit->setText(s);	};
 
 	public slots:
 	void DeleteClicked();

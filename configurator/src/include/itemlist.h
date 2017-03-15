@@ -3,6 +3,8 @@
 
 #include "item.h"
 
+class Item;
+
 class ItemList
 {
 	Item* first_item;

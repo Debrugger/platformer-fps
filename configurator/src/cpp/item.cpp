@@ -116,11 +116,7 @@ void Item::SetupUi()
 
 	/*created_from_settings says if this object was created while reading the settings. In ReadSettings(), the texts in the lineedits are changed which would trigger these Signals and set settings_saved to false, so if created from settings, these slots will be connected later*/
 	if (!created_from_settings)
-	{
-		connect(img_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
-		connect(model_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
-		connect(name_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
-	}
+		ConnectSettingsSlots();
 }
 
 void Item::Show()
@@ -138,6 +134,13 @@ void Item::Show()
 	name_edit->show();
 	g_view->show();
 }                       
+
+void Item::ConnectSettingsSlots()
+{
+	connect(img_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
+	connect(model_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
+	connect(name_edit, SIGNAL(textChanged(QString)), this, SLOT(SettingChanged()));
+}
 
 void Item::DeleteClicked()
 {
