@@ -63,12 +63,12 @@
      <rect>
       <x>30</x>
       <y>300</y>
-      <width>161</width>
+      <width>271</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Players in lobby</string>
+     <string>Players in lobby:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="readyButton">
@@ -125,7 +125,7 @@
      <rect>
       <x>30</x>
       <y>0</y>
-      <width>221</width>
+      <width>271</width>
       <height>31</height>
      </rect>
     </property>
@@ -148,7 +148,7 @@
      <rect>
       <x>320</x>
       <y>296</y>
-      <width>151</width>
+      <width>261</width>
       <height>41</height>
      </rect>
     </property>
@@ -156,7 +156,7 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>Vote for a map</string>
+     <string>Vote for a map:</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="log_edit">
