@@ -2,17 +2,14 @@
 .PHONY: configurator
 .PHONY: lobby
 
-all: bin/configurator bin/lobby
-configurator: bin/configurator
-lobby: bin/lobby
+all: configurator lobby
 
-
-bin/configurator: 
+configurator: 
 	@echo "COMPILING CONFIGURATOR"
 	@echo ""
 	@cd configurator && make --no-print-directory
 
-bin/lobby:
+lobby:
 	@echo "COMPILING LOBBY"
 	@echo ""
 	@cd lobby && make --no-print-directory    
