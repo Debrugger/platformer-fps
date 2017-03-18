@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1223</width>
-    <height>590</height>
+    <width>640</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,185 +16,98 @@
   <property name="styleSheet">
    <string notr="true">font: 63 16pt &quot;Open Sans Semibold&quot;;</string>
   </property>
-  <widget class="QWidget" name="centralwidget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1221</width>
-     <height>581</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <widget class="QListWidget" name="characterList">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>271</width>
-      <height>131</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="characterView">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>30</y>
-      <width>261</width>
-      <height>261</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QListView" name="userlist">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>330</y>
-      <width>271</width>
-      <height>231</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="user_label">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>300</y>
-      <width>271</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Players in lobby:</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="readyButton">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>510</y>
-      <width>121</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Ready</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="quitButton">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>510</y>
-      <width>111</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Quit</string>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="mapView">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>30</y>
-      <width>255</width>
-      <height>360</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="mapList">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>330</y>
-      <width>261</width>
-      <height>161</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="characterlabel">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>0</y>
-      <width>271</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Your player character:</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="character_edit">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>170</y>
-      <width>271</width>
-      <height>121</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="map_label">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>296</y>
-      <width>261</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Vote for a map:</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="log_edit">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>30</y>
-      <width>321</width>
-      <height>531</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 9pt &quot;Sans Serif&quot;;</string>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOn</enum>
-    </property>
-    <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="autoFormatting">
-     <set>QTextEdit::AutoNone</set>
-    </property>
-    <property name="readOnly">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="map_edit">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>410</y>
-      <width>251</width>
-      <height>151</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QWidget" name="centralwidget" native="true">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="1" rowspan="2" colspan="2">
+       <widget class="QGraphicsView" name="characterView"/>
+      </item>
+      <item row="4" column="0" rowspan="3">
+       <widget class="QListView" name="userlist"/>
+      </item>
+      <item row="6" column="1">
+       <widget class="QPushButton" name="readyButton">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Ready</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" rowspan="2" colspan="2">
+       <widget class="QListWidget" name="mapList"/>
+      </item>
+      <item row="1" column="3" rowspan="4">
+       <widget class="QGraphicsView" name="mapView"/>
+      </item>
+      <item row="5" column="3" rowspan="2">
+       <widget class="QTextEdit" name="map_edit"/>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QLabel" name="map_label">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Vote for a map:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4" rowspan="6">
+       <widget class="QTextEdit" name="log_edit">
+        <property name="styleSheet">
+         <string notr="true">font: 9pt &quot;Sans Serif&quot;;</string>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOn</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="autoFormatting">
+         <set>QTextEdit::AutoNone</set>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QTextEdit" name="character_edit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QListWidget" name="characterList"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="characterlabel">
+        <property name="text">
+         <string>Your player character:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QPushButton" name="quitButton">
+        <property name="text">
+         <string>Quit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="user_label">
+        <property name="text">
+         <string>Players in lobby:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
