@@ -2,7 +2,7 @@
 .PHONY: configurator
 .PHONY: lobby
 
-all: configurator lobby
+ll: configurator lobby
 
 configurator: 
 	@echo "COMPILING CONFIGURATOR"
@@ -13,7 +13,6 @@ lobby:
 	@echo "COMPILING LOBBY"
 	@echo ""
 	@cd lobby && make --no-print-directory    
-	@make
 
 distclean:
 	@rm -rfv configurator/build
