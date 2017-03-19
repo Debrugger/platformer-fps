@@ -12,7 +12,7 @@ enum ItemType
 
 class ItemList;
 
-void SaveSettings(MainWindow*);
+bool SaveSettings(MainWindow*);
 void ReadSettings(MainWindow*);
 bool SearchForDuplicates(ItemList*);
 bool SearchForEmpty(ItemList*);

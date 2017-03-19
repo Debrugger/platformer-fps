@@ -64,7 +64,7 @@ bool SearchForEmpty(ItemList* il)
 
 	for (i = il->FirstItem(); i; i = i->NextItem())
 	{
-		if (i->Name() == "" || i->Model() == "" || i->Image() == "")
+		if (i->Name() == "" /*|| i->Model() == "" */|| i->Image() == "")
 			return false;
 	}
 
@@ -112,7 +112,7 @@ bool SearchForDuplicates(ItemList* il)
 	return true;
 }
 
-void SaveSettings(MainWindow* mw)
+bool SaveSettings(MainWindow* mw)
 {
 	const int dupes_c = 1;
 	const int dupes_m = 2;
@@ -172,6 +172,7 @@ void SaveSettings(MainWindow* mw)
 
 		mw->settings_saved = true;
 		mw->status_label->setText("Settings Saved!");
+		return true;
 	}
 	catch(int& e)
 	{
@@ -179,22 +180,30 @@ void SaveSettings(MainWindow* mw)
 		{
 			mw->status_label->setText(QString("Error: There are characters with duplicate attributes."));
 			std::cout << "dupes chars" << std::endl;
+			return false;
 		}
 		else if (e == dupes_m)
 		{
 			mw->status_label->setText(QString("Error: There are maps with duplicate attributes."));
 			std::cout << "dupes maps" << std::endl;
+			return false;
 		}
 		else if (e == empty_c)
 		{
 			mw->status_label->setText("Error: There are empty fields for characters.");
+			return false;
 		}
 		else if (e == empty_m)
 		{
 			mw->status_label->setText("Error: There are empty fields for maps.");
+			return false;
 		}
 		else 
+		{
 			mw->status_label->setText("Unknown Error");
+			return false;
+		}
+
 	}
 
 }
