@@ -18,13 +18,22 @@ SaveDialog::~SaveDialog()
 
 void SaveDialog::SaveClicked()
 {
-	SaveSettings(parent_window);
-	parent_window->close();
-	app->quit();
+	if (SaveSettings(parent_window))
+	{
+		parent_window->close();
+		app->quit();
+	}
+	else
+		close();
 }
 
 void SaveDialog::DiscardClicked()
 {
 	parent_window->close();
 	app->quit();
+}
+
+void SaveDialog::on_cancel_button_clicked()
+{
+	close();
 }

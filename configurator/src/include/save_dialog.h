@@ -15,6 +15,7 @@ class SaveDialog: public QDialog, public Ui::SaveDialog
     public slots:
         void SaveClicked();
         void DiscardClicked();
+		  void on_cancel_button_clicked();
 };
 
 #endif //__SAVE_DIALOG_H
