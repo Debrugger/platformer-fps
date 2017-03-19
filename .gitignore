@@ -37,3 +37,4 @@ bin/*
 src/lobby/moc_main.cpp
 src/configurator/moc_main.cpp
 build
+charmaps.conf
