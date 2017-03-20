@@ -11,5 +11,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/fcntl.h>
+#include <cstdlib>
 
 #endif //__SYSINC_H

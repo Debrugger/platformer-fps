@@ -8,9 +8,11 @@
 
 void ReadSettings(MainWindow* mw)
 {
-	QSettings settings(config_file_name, QSettings::NativeFormat);
+	QSettings settings(ConfigFile(), QSettings::NativeFormat);
 	int nb_chars = 0;
 	int nb_maps = 0;
+
+	qDebug() << "config file is: " << ConfigFile();
 
 	settings.beginGroup("Characters");
 	nb_chars = settings.value("nb_chars").toInt();
@@ -207,3 +209,4 @@ bool SaveSettings(MainWindow* mw)
 	}
 
 }
+
