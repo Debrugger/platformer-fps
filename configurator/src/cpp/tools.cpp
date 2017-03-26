@@ -15,10 +15,11 @@ void ReadSettings(MainWindow* mw)
 	qDebug() << "config file is: " << ConfigFile();
 
 	settings.beginGroup("Characters");
-	nb_chars = settings.value("nb_chars").toInt();
+	nb_chars = settings.value("nb").toInt();
 
 	if (nb_chars > max_number_chars)
 	{
+		std::cout << "fuck." << std::endl;
 		throw(MainWindow::TooManyChars);
 		return;
 	}
@@ -37,7 +38,7 @@ void ReadSettings(MainWindow* mw)
 	settings.endGroup();
 
 	settings.beginGroup("Maps");
-	nb_maps = settings.value("nb_maps").toInt();
+	nb_maps = settings.value("nb").toInt();
 
 	if (nb_maps > max_number_maps)
 	{

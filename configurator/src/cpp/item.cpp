@@ -72,7 +72,7 @@ void Item::SetupUi()
 	delete_button = new QToolButton(group_box);
 	delete_button->setAutoFillBackground(true);
 	delete_button->setGeometry(600, 19, 15, 15);
-	delete_button->setIcon(QIcon("rc/img/delete.png"));
+	delete_button->setIcon(QIcon("img/delete.png"));
 	delete_button->setIconSize(QSize(40, 40));
 
 	img_edit = new QLineEdit(group_box);
