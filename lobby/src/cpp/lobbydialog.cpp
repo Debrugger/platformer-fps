@@ -16,6 +16,7 @@ int nb_maps = 0;
 LobbyDialog::LobbyDialog()
 {
 	setupUi(this);
+
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_QuitOnClose);
 	setWindowTitle("Lobby");
@@ -31,13 +32,10 @@ LobbyDialog::LobbyDialog()
 	map_edit->setReadOnly(true);
 	character_edit->setReadOnly(true);
 	log_edit->setReadOnly(true);
+	chat_edit->setReadOnly(true);
 
    char_view_scene = new QGraphicsScene(QRectF(0, 0, characterView->geometry().width(), characterView->geometry().height()), 0);
    map_view_scene = new QGraphicsScene(QRectF(0, 0, mapView->geometry().width(), mapView->geometry().height()), 0);
-
-	characterList->setCurrentRow(0);
-	mapList->setCurrentRow(0);
-
 	try
 	{
 		ReadSettings();
@@ -52,8 +50,9 @@ LobbyDialog::LobbyDialog()
 			mapList->addItem(maps.at(i)->name);
 		}
 
-		//UpdateImage(characterView, char_view_scene, char_pixmap, characters.at(characterList->currentRow())->image_path); /*Set up graphics view for character picture*/
-		//UpdateImage(mapView, map_view_scene, map_pixmap, maps.at(mapList->currentRow())->image_path);
+		characterList->setCurrentRow(0);
+		mapList->setCurrentRow(0);
+		std::cout << "b" << std::endl;
 	}
 	catch(int& i)
 	{
@@ -69,6 +68,21 @@ LobbyDialog::LobbyDialog()
 
 LobbyDialog::~LobbyDialog()
 {
+}
+
+void LobbyDialog::resizeEvent(QResizeEvent* ev)
+{
+	QMainWindow::resizeEvent(ev);
+
+	std::cout << "Resized" << std::endl;
+	delete char_view_scene;
+	delete map_view_scene;
+   char_view_scene = new QGraphicsScene(QRectF(0, 0, characterView->geometry().width(), characterView->geometry().height()), 0);
+   map_view_scene = new QGraphicsScene(QRectF(0, 0, mapView->geometry().width(), mapView->geometry().height()), 0);
+
+	UpdateImage(mapView, map_view_scene, map_pixmap, maps.at(mapList->currentRow())->image_path);
+	UpdateImage(characterView, char_view_scene, char_pixmap, characters.at(characterList->currentRow())->image_path);
+
 }
 
 void LobbyDialog::LogPrint(const QString& msg)
@@ -92,7 +106,8 @@ void LobbyDialog::UpdateImage(QGraphicsView*& view, QGraphicsScene*& scene, QPix
 	pixmap.load(path);
 
 	/*make image fit in graphics view*/
-	scene->addPixmap(pixmap.scaled(QSize((int)scene->width(), (int)scene->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	qDebug() << "scene " << path << " width: " << (int)scene->width() << " height " << (int)scene->height();
+scene->addPixmap(pixmap.scaled(QSize((int)scene->width(), (int)scene->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	//characterView->fitInView(char_view_scene->itemsBoundingRect(), Qt::KeepAspectRatio); /*scaling works w/o this, with this the image is not scaled properly the first time*/
 	view->setScene(scene);
 }

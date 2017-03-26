@@ -4,7 +4,7 @@
 #include "qtinc.h"
 #include "build/lobby_dialog.ui.h"
 
-class LobbyDialog : public QDialog, public Ui::LobbyDialog  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
+class LobbyDialog : public QMainWindow, public Ui::LobbyWindow  /*Ui:: has to be same as window/widget name in qtcreator .ui file*/
 {
 	Q_OBJECT;
 
@@ -13,15 +13,14 @@ class LobbyDialog : public QDialog, public Ui::LobbyDialog  /*Ui:: has to be sam
 public:
 	LobbyDialog();
 	virtual ~LobbyDialog();
-
  	void ReadSettings();
-
-	QPixmap char_pixmap;
-	QPixmap map_pixmap;
 	void UpdateImage(QGraphicsView*&, QGraphicsScene*&, QPixmap&, QString&);
 	void LogPrint(const QString&);
+	void resizeEvent(QResizeEvent*);
 
    static const int FailedToBuild = 10;
+	QPixmap char_pixmap;
+	QPixmap map_pixmap;
 
 public slots:
 	void OnCharListChanged();

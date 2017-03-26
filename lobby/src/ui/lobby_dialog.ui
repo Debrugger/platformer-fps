@@ -1,65 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LobbyDialog</class>
- <widget class="QDialog" name="LobbyDialog">
+ <class>LobbyWindow</class>
+ <widget class="QMainWindow" name="LobbyWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Open Sans Semibold</family>
+    <pointsize>20</pointsize>
+    <weight>50</weight>
+    <bold>false</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">font: 63 16pt &quot;Open Sans Semibold&quot;;</string>
-  </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QWidget" name="centralwidget" native="true">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="1" rowspan="2" colspan="2">
-       <widget class="QGraphicsView" name="characterView"/>
-      </item>
-      <item row="4" column="0" rowspan="3">
-       <widget class="QListView" name="userlist"/>
-      </item>
-      <item row="6" column="1">
-       <widget class="QPushButton" name="readyButton">
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Ready</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1" rowspan="2" colspan="2">
-       <widget class="QListWidget" name="mapList"/>
-      </item>
-      <item row="1" column="3" rowspan="4">
-       <widget class="QGraphicsView" name="mapView"/>
-      </item>
-      <item row="5" column="3" rowspan="2">
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <property name="spacing">
+       <number>30</number>
+      </property>
+      <item row="3" column="2" rowspan="2">
        <widget class="QTextEdit" name="map_edit"/>
       </item>
-      <item row="3" column="1" colspan="2">
-       <widget class="QLabel" name="map_label">
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Vote for a map:</string>
+      <item row="1" column="2" rowspan="2">
+       <widget class="QGraphicsView" name="mapView"/>
+      </item>
+      <item row="1" column="1" rowspan="2">
+       <widget class="QGraphicsView" name="characterView">
+        <property name="autoFillBackground">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="1" column="4" rowspan="6">
+      <item row="2" column="0">
+       <widget class="QTextEdit" name="character_edit"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QListWidget" name="mapList">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="4">
+       <widget class="QPushButton" name="send_button">
+        <property name="font">
+         <font>
+          <family>Open Sans Semibold</family>
+          <pointsize>20</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Send</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="characterlabel">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Your player character:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3" rowspan="2" colspan="2">
        <widget class="QTextEdit" name="log_edit">
+        <property name="font">
+         <font>
+          <family>Sans Serif</family>
+          <pointsize>9</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">font: 9pt &quot;Sans Serif&quot;;</string>
         </property>
@@ -77,37 +122,117 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QTextEdit" name="character_edit"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QListWidget" name="characterList"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="characterlabel">
-        <property name="text">
-         <string>Your player character:</string>
+      <item row="3" column="3" rowspan="2" colspan="2">
+       <widget class="QTextEdit" name="chat_edit">
+        <property name="font">
+         <font>
+          <family>Open Sans Semibold</family>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
         </property>
-       </widget>
-      </item>
-      <item row="6" column="2">
-       <widget class="QPushButton" name="quitButton">
-        <property name="text">
-         <string>Quit</string>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOn</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="user_label">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Players in lobby:</string>
         </property>
        </widget>
       </item>
+      <item row="4" column="0">
+       <widget class="QListView" name="userlist">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="map_label">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Vote for a map:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QListWidget" name="characterList">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="currentRow">
+         <number>-1</number>
+        </property>
+        <property name="sortingEnabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="readyButton">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Ready</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="quitButton">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Quit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLineEdit" name="chat_line">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </widget>
-   </item>
-  </layout>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>
