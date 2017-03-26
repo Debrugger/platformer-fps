@@ -58,7 +58,6 @@ build/%.moc.o: build/%.moc.cpp
 
 build/%.moc.cpp: src/include/%.h
 	@echo "mocking   $< ..."
-	@touch $@
 	@moc --no-notes $(DEFINES) $(INCLUDES) $< -o $@
 
 
