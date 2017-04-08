@@ -13,4 +13,6 @@
 #include <sys/fcntl.h>
 #include <vector>
 
+#include <GL/glu.h>
+
 #endif //__SYSINC_H
