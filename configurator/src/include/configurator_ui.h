@@ -31,20 +31,25 @@ class Ui_ConfiguratorMainWindow
         QPushButton* add_map_button;
         QLabel *status_label;
         QStatusBar *statusbar;
+
         QScrollArea* char_scroll_area;
         QBoxLayout* char_vert_layout;
         QScrollArea* map_scroll_area;
         QBoxLayout* map_vert_layout;
+        QScrollArea* weapon_scroll_area;
+        QBoxLayout* weapon_vert_layout;
 
         QTabWidget* tab_widget;
         QWidget* char_tab;
         QWidget* map_tab;
-
-        QGroupBox* char_box[30];
-        QPushButton* char_img_button[30];
+        QWidget* weapon_tab;
 
         QWidget* char_widget;
         QWidget* map_widget;
+        QWidget* weapon_widget;
+		  QRect vert_dim = QRect(10, 10, 630, 545);
+		  QRect scroll_dim = QRect(5, 30, 652, 485);
+		  QRect widget_dim = QRect(10, 10, 630, 545);
                
         void setupUi(QMainWindow *ConfiguratorMainWindow)
         {
@@ -61,33 +66,48 @@ class Ui_ConfiguratorMainWindow
             char_tab->setObjectName(QStringLiteral("char_tab"));
             map_tab = new QWidget();
             map_tab->setObjectName(QStringLiteral("map_tab"));
+            weapon_tab = new QWidget();
+            weapon_tab->setObjectName(QStringLiteral("weapon_tab"));
 
             tab_widget->addTab(char_tab, QString("Characters"));
             tab_widget->addTab(map_tab, QString("Maps"));
+            tab_widget->addTab(weapon_tab, QString("Weapons"));
 
             char_scroll_area = new QScrollArea(char_tab);
             char_scroll_area->setObjectName(QStringLiteral("char_scroll_area"));
-            char_scroll_area->setGeometry(QRect(5, 30, 652, 485));
+            char_scroll_area->setGeometry(scroll_dim);
 
             char_widget = new QWidget;
-            char_widget->setGeometry(QRect(10, 10, 630, 545));
+            char_widget->setGeometry(widget_dim);
             char_vert_layout = new QVBoxLayout(char_widget);
             char_vert_layout->setObjectName(QStringLiteral("char_vert_layout"));
-            char_vert_layout->setGeometry(QRect(10, 10, 630, 545));
+            char_vert_layout->setGeometry(vert_dim);
             char_vert_layout->setSizeConstraint(QLayout::SetFixedSize); //widgets in the layout have a fixed size
             char_scroll_area->setWidget(char_widget);
 
             map_scroll_area = new QScrollArea(map_tab);
             map_scroll_area->setObjectName(QStringLiteral("char_scroll_area"));
-            map_scroll_area->setGeometry(QRect(5, 30, 652, 485));
+            map_scroll_area->setGeometry(scroll_dim);
 
             map_widget = new QWidget;
-            map_widget->setGeometry(QRect(10, 10, 630, 545));
+            map_widget->setGeometry(widget_dim);
             map_vert_layout = new QVBoxLayout(map_widget);
             map_vert_layout->setObjectName(QStringLiteral("map_vert_layout"));
-            map_vert_layout->setGeometry(QRect(10, 10, 630, 545));
+            map_vert_layout->setGeometry(vert_dim);
             map_vert_layout->setSizeConstraint(QLayout::SetFixedSize); //widgets in the layout have a fixed size
             map_scroll_area->setWidget(map_widget);
+
+            weapon_scroll_area = new QScrollArea(weapon_tab);
+            weapon_scroll_area->setObjectName(QStringLiteral("weapon_scroll_area"));
+            weapon_scroll_area->setGeometry(scroll_dim);
+
+            weapon_widget = new QWidget;
+            weapon_widget->setGeometry(widget_dim);
+            weapon_vert_layout = new QVBoxLayout(weapon_widget);
+            weapon_vert_layout->setObjectName(QStringLiteral("weapon_vert_layout"));
+            weapon_vert_layout->setGeometry(vert_dim);
+            weapon_vert_layout->setSizeConstraint(QLayout::SetFixedSize); //widgets in the layout have a fixed size
+            weapon_scroll_area->setWidget(weapon_widget);
 
             saveButton = new QPushButton(centralwidget);
             saveButton->setObjectName(QStringLiteral("saveButton"));
