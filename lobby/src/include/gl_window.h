@@ -1,6 +1,7 @@
 #ifndef __GL_WINDOW_H
 #define __GL_WINDOW_H
 
+#include "qtinc.h"
 class MainWindow : public QWindow, protected QOpenGLFunctions
 {
 	Q_OBJECT;
@@ -19,7 +20,6 @@ public:
 	
 public slots:
 	void OnTimer();
-   void renderLater();
 
 protected:
 	bool event(QEvent* e);

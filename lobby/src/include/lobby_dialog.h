@@ -9,6 +9,8 @@ class LobbyDialog : public QMainWindow, public Ui::LobbyWindow  /*Ui:: has to be
 	Q_OBJECT;
 
    const int BrokenConfig = 20; //internal excaption in constructor
+QGraphicsScene* char_view_scene; /*needs to be global because scene gets deleted when out of scope otherwise*/
+QGraphicsScene* map_view_scene;
 
 public:
 	LobbyDialog();
@@ -26,6 +28,7 @@ public slots:
 	void OnCharListChanged();
 	void OnMapListChanged();
 	void on_quitButton_clicked();
+	void on_gl_button_clicked();
 	
 };
 

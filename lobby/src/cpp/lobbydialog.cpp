@@ -4,9 +4,8 @@
 #include "common.h"
 #include "lobby_dialog.h"
 #include "item.h"
+#include "gl_window.h"
 
-QGraphicsScene* char_view_scene; /*needs to be global because scene gets deleted when out of scope otherwise*/
-QGraphicsScene* map_view_scene;
 
 std::vector<Item*> characters;
 std::vector<Item*> maps;
@@ -171,4 +170,11 @@ void LobbyDialog::ReadSettings()
 		throw(BrokenConfig);
 	}
 	settings.endGroup();
+}
+
+void LobbyDialog::on_gl_button_clicked()
+{
+	MainWindow*	gl_window;
+	gl_window = new MainWindow;
+	gl_window->show();
 }

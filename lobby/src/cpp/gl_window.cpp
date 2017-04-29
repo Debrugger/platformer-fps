@@ -1,5 +1,7 @@
 #include "sysinc.h"
 #include "qtinc.h"
+#include "lobby_dialog.h"
+#include "connect_dialog.h"
 #include "globals.h"
 #include "gl_window.h"
 
@@ -13,7 +15,6 @@ MainWindow::MainWindow(QWindow* parent)
 	timer->setInterval(10);
 	timer->setSingleShot(false);
 	connect(timer, SIGNAL(timeout()), this, SLOT(OnTimer()));
-
 	setSurfaceType(QWindow::OpenGLSurface);
 }
 
@@ -35,11 +36,18 @@ void MainWindow::OnRender()
 
 	if (!isExposed())
 		return;
+
+	if (!gl_device)
+	{
+		gl_device = new QOpenGLPaintDevice;
+		gl_device->setSize(size());
+	}
 	on_init = false;
 	if (!context)
 	{
 		context = new QOpenGLContext(this);
 		context->setFormat(requestedFormat());
+		context->create();
 		on_init = true;
 	}
 	context->makeCurrent(this);
@@ -49,14 +57,9 @@ void MainWindow::OnRender()
 		initializeOpenGLFunctions();
 		OnInit();
 	}
+
+	glViewport(0, 0, size().width(), size().height());
 	timer->start();
-
-	if (!gl_device)
-	{
-		gl_device = new QOpenGLPaintDevice;
-		gl_device->setSize(size());
-	}
-
 	OnPaint();
 	context->swapBuffers(this);
 }
@@ -68,8 +71,6 @@ void MainWindow::OnTimer()
 
 void MainWindow::OnPaint()
 {
-
-	printf("OnPaint()\n");
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.9, 0.9, 1.0, 1.0);
@@ -129,9 +130,6 @@ void MainWindow::OnPaint()
 	glVertex3f( -0.1 + pos_x, -0.1 - 1.0, -0.1 - 5.0);
 	glVertex3f( -0.1 + pos_x, -0.1 - 1.0,  0.1 - 5.0);
 	glEnd();
-
-
-	//QPainter painter(gl_device);
 }
 
 bool MainWindow::event(QEvent* e)
@@ -139,7 +137,7 @@ bool MainWindow::event(QEvent* e)
 	switch (e->type())
 	{
 		case QEvent::UpdateRequest:
-			OnPaint();
+			OnRender();
 			return true;
 
 		default:
@@ -150,7 +148,7 @@ bool MainWindow::event(QEvent* e)
 void MainWindow::exposeEvent(QExposeEvent* e)
 {
 	if (isExposed())
-		OnPaint();
+		OnRender();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
