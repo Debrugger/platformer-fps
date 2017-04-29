@@ -1,11 +1,9 @@
 #include "sysinc.h"
 #include "qtinc.h"
-
 #include "common.h"
 #include "lobby_dialog.h"
 #include "item.h"
 #include "gl_window.h"
-
 
 std::vector<Item*> characters;
 std::vector<Item*> maps;

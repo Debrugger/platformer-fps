@@ -3,14 +3,13 @@
 
 #include "lobby_dialog.h"
 #include "connect_dialog.h"
-#include "globals.h"
+#include "main.h"
 #include "common.h"
 
+//todo: verify character and map names for duplicates, check if maximum char and map count are exceeded
 QApplication* app;
-
 LobbyDialog* lobby_dialog_ptr;
 ConnectDialog* connect_dialog_ptr;
-//todo: verify character and map names for duplicates, check if maximum char and map count are exceeded
 
 void SetStyle(QApplication* a)
 {
