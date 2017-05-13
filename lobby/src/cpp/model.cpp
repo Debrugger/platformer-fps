@@ -118,7 +118,7 @@ load_normal_obj:
 	if (!fr.Open(from_file))
 	{
 		return false;
-		printf ("bei open raus\n");
+		printf ("Couldn't open obj file\n");
 	}
 
 	if (vertex_array)

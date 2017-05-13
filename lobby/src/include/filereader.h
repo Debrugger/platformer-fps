@@ -9,7 +9,7 @@
 class FileReader
 {
 	int handle;
-	char *buffer; /* Platz zum zwischenlagern der Datei-St?cke, die man mit read() gelesen hat */
+	char *buffer;
 	char *actual_position;
 	int left_buffer_bytes;
 

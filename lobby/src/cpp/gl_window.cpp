@@ -16,6 +16,7 @@
 #include "glglobals.h"
 #include "gl_window.h"
 #include "playercontrols.h"
+#include "world_file.h"
 
 double pos_x;
 Object* o; 
@@ -48,31 +49,13 @@ void MainWindow::OnInit()
 	cam_pos.Set(0.0, 0.0, -1 * -1);
 	display_width = size().width();
 	display_height = size().height();
+	printf("width: %d height: %d", display_width, display_height);
 	QCursor cursor;
 	cursor.setPos(display_width / 2, display_height / 2);
 	cursor.setShape(Qt::BlankCursor);
 	setCursor(cursor);
 
-	o = new Object;
-	o->texture = new Texture;
-	o->mesh = new Mesh;
-	m.Load("rc/haus/models/platform3.obj");
-	m.ToMesh(o->mesh);
-	o->shader = &shader;
-	o->texture->Load("rc/haus/tex/asset/platform3.png");
-	o->matrix.m[3][0] = 0;
-	o->matrix.m[3][1] = 0.0;             
-	o->matrix.m[3][2] = 0.5 * -1;
-	o = new Object;
-	o->texture = new Texture;
-	o->mesh = new Mesh;
-	m.Load("rc/haus/models/platform3.obj");
-	m.ToMesh(o->mesh);
-	o->shader = &shader;
-	o->texture->Load("rc/haus/tex/asset/platform3.png");
-	o->matrix.m[3][0] = 1;
-	o->matrix.m[3][1] = 0.0;             
-	o->matrix.m[3][2] = -0.5 * -1;
+	LoadWorldFile("lobby/wftest/world_file.dat");
 }
 
 void MainWindow::OnRender()
