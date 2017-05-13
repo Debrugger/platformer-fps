@@ -8,6 +8,7 @@
 #include "matrix.h"
 #include "glbuffer.h"
 #include "mesh.h"
+#include "model.h"
 #include "texture.h"
 #include "shader.h"
 #include "object.h"
@@ -17,6 +18,7 @@
 #include "playercontrols.h"
 
 double pos_x;
+Object* o; 
 
 MainWindow::MainWindow(QWindow* parent)
 {
@@ -39,6 +41,38 @@ MainWindow::~MainWindow()
 
 void MainWindow::OnInit()
 {
+	Model m;
+	shader.Load("rc/shader/simple_vertexshader.glsl", "rc/shader/simple_pixelshader.glsl");
+
+	cam_to.Set(1.0, 0.0, -1 * -1);
+	cam_pos.Set(0.0, 0.0, -1 * -1);
+	display_width = size().width();
+	display_height = size().height();
+	QCursor cursor;
+	cursor.setPos(display_width / 2, display_height / 2);
+	cursor.setShape(Qt::BlankCursor);
+	setCursor(cursor);
+
+	o = new Object;
+	o->texture = new Texture;
+	o->mesh = new Mesh;
+	m.Load("rc/haus/models/platform3.obj");
+	m.ToMesh(o->mesh);
+	o->shader = &shader;
+	o->texture->Load("rc/haus/tex/asset/platform3.png");
+	o->matrix.m[3][0] = 0;
+	o->matrix.m[3][1] = 0.0;             
+	o->matrix.m[3][2] = 0.5 * -1;
+	o = new Object;
+	o->texture = new Texture;
+	o->mesh = new Mesh;
+	m.Load("rc/haus/models/platform3.obj");
+	m.ToMesh(o->mesh);
+	o->shader = &shader;
+	o->texture->Load("rc/haus/tex/asset/platform3.png");
+	o->matrix.m[3][0] = 1;
+	o->matrix.m[3][1] = 0.0;             
+	o->matrix.m[3][2] = -0.5 * -1;
 }
 
 void MainWindow::OnRender()
@@ -76,7 +110,8 @@ void MainWindow::OnRender()
 }
 
 void MainWindow::OnTimer()
-{
+{                     
+	PlayerControls();
 	requestUpdate();
 }
 
@@ -90,9 +125,14 @@ void MainWindow::OnPaint()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(60.0, (double)size().width() / (double)size().height(), 0.001, 1e10);
+   gluLookAt(cam_pos.x, cam_pos.y, cam_pos.z, cam_to.x, cam_to.y, cam_to.z, 0.0, 1.0, 0.0);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	for (o = Object::FirstObject(); o; o = o->NextObject())
+	{
+		o->Render();
+	}
 }
 
 bool MainWindow::event(QEvent* e)
@@ -141,6 +181,7 @@ void MainWindow::OnKeyUp(int keycode) /* a bis z und 0 bis 9 */
 		case Qt::Key_D: key_d = false; break;
 		case Qt::Key_Q: key_q = false; break;
 		case Qt::Key_E: key_e = false; break;
+		case Qt::Key_P: cheat_mode = !cheat_mode; break;
 	}
 }
 
@@ -154,29 +195,33 @@ void MainWindow::OnMouseUp(int button)
 
 void MainWindow::OnMouseMove(int x, int y)
 {
- double horz, vert;
- Vector v;
- x -= display_width / 2;
- y -= display_height / 2;
- y = -y;
+	double horz, vert;
+	Vector v;
+	x -= display_width / 2;
+	y -= display_height / 2;
+	y = -y;
 
- if (x == 0 && y == 0)
-	  return;
+	if (x == 0 && y == 0)
+		return;
 
- horz = atan2(cam_to.z - cam_pos.z, cam_to.x - cam_pos.x);
+	horz = atan2(cam_to.z - cam_pos.z, cam_to.x - cam_pos.x);
 
- v = cam_to - cam_pos;
- vert = asin(v.y / v.Len());
+	v = cam_to - cam_pos;
+	vert = asin(v.y / v.Len());
 
- horz += (double)x * MOUSE_SENSITIVITY;
+	horz += (double)x * MOUSE_SENSITIVITY;
 
- if ((vert < M_PI * 0.5 - 0.05 && y > 0) || (vert > -M_PI * 0.5 + 0.05 && y < 0))
-	  vert += (double)y * MOUSE_SENSITIVITY;
-cam_to.x = cam_pos.x + cos(horz) * cos(vert);
- cam_to.y = cam_pos.y + sin(vert);
- cam_to.z = cam_pos.z + sin(horz) * cos(vert);
+	if ((vert < M_PI * 0.5 - 0.05 && y > 0) || (vert > -M_PI * 0.5 + 0.05 && y < 0))
+		vert += (double)y * MOUSE_SENSITIVITY;
+	cam_to.x = cam_pos.x + cos(horz) * cos(vert);
+	cam_to.y = cam_pos.y + sin(vert);
+	cam_to.z = cam_pos.z + sin(horz) * cos(vert);
 
- //glutWarpPointer(display_width / 2, display_height / 2);
+	QCursor cursor;
+	cursor.setPos(mapToGlobal(QPoint(display_width / 2, display_height / 2)));
+	cursor.setShape(Qt::BlankCursor);
+	setCursor(cursor);
+
 }
 
 void MainWindow::exposeEvent(QExposeEvent* e)

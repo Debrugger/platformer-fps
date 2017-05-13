@@ -119,7 +119,7 @@ bool Platform::Collision()
 void Platform::Land()
 {
 	landed_platform = this;
-	cam_pos.y = matrix.m[3][1] + mesh->max_y + PLAYER_HEIGHT - 0.1;
+	cam_pos.y = PosY() + mesh->max_y + PLAYER_HEIGHT - 0.1;
 }
 
 

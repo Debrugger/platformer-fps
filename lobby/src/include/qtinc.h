@@ -22,3 +22,4 @@
 #include <QOpenGLPaintDevice>
 #include <QOpenGLFunctions>
 #include <QPainter>
+#include <QCursor>

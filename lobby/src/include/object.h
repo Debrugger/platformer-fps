@@ -39,8 +39,8 @@ class Object
 	double PosY()                                                            { return matrix.PosY(); };
 	double PosZ()                                                            { return matrix.PosZ(); };
 	void PosX(double x)                                                      { matrix.PosX(x); };
-	void PosY(double y)                                                      { matrix.PosX(y); };
-	void PosZ(double z)                                                      { matrix.PosX(z); };
+	void PosY(double y)                                                      { matrix.PosY(y); };
+	void PosZ(double z)                                                      { matrix.PosZ(z); };
 };
 
 #endif // __OBJECT_H
