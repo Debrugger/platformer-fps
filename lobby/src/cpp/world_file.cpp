@@ -18,14 +18,103 @@
 //scale = x,BLENDERy!!!!,z
 //rotation = x,BLENDERy!!!!,z
 
+void WorldFile::Load(const char* filename)
+{
+	using namespace WorldFile;
+	char* eq;
+	char* co;
 
-void CheckAndCreate(const TempObject* t)
+	char buffer[FILEREADER_MAX_LINE_LENGTH];
+	FileReader fr;
+   TempObject o;
+	int nb_objects = 0;
+
+	if (!fr.Open(filename)) throw OpenFileError();
+	while (fr.ReadLine(buffer))
+	{
+		try
+		{
+		switch(buffer[0])
+		{
+			case 'n':
+				if (o.has_name && o.has_mesh && o.has_pos && o.has_rot && o.has_sca) CreateObject(&o); 
+				nb_objects++;
+				if ((eq = strchr(buffer, '=')))
+			 		snprintf(o.name, max_name_length, "%s", ++eq);
+				else
+					throw ObjectNameWrong();
+				printf("Name of object: %s\n", o.name);
+				o.has_name = true;
+				break;
+
+			case 'm':
+				if ((eq = strchr(buffer, '=')))
+			 		snprintf(o.mesh, max_name_length, "%s", ++eq);
+				else throw MeshNameWrong();
+				o.has_mesh = true;
+				break;
+
+			case 'c':
+            if ((eq = strchr(buffer, '=')))
+				{
+					co = eq;
+					for (int i = 0; i < 3; i++)
+					{
+						o.coords[i] = atof(++co);
+						printf("Found coordinate %f\n", o.coords[i]);
+						co = strchr(co, ',');
+						if (!co && i != 2) throw PosCoordsWrong();
+					}
+				}
+				o.has_pos = true;
+				break;
+
+			case 's':
+            if ((eq = strchr(buffer, '=')))
+				{
+					co = eq;
+					for (int i = 0; i < 3; i++)
+					{
+						o.scale[i] = atof(++co);
+						co = strchr(co, ',');
+						if (!co && i != 2) throw ScaCoordsWrong();
+							
+					}
+				}
+				o.has_sca = true;
+         	break;
+
+			case 'r':
+            if ((eq = strchr(buffer, '=')))
+				{
+					co = eq;
+					for (int i = 0; i < 3; i++)
+					{
+						o.rotation[i] = atof(++co);
+						co = strchr(co, ',');
+						if (!co && i != 2) throw RotCoordsWrong();
+					}
+				}
+				o.has_rot = true;
+				break;
+		}
+		}
+		catch(OpenFileError& e)		{ printf ("Could not open world file. Exiting.\n"); exit(1); }
+		catch(ObjectNameWrong& e)	{ printf("Name in world file wrong (too long? no longer than %d allowed). Exiting because shit is probably broken.\n", max_name_length); exit(1); }
+		catch(MeshNameWrong& e)		{ printf("Mesh name in world file wrong (too long? not longer than %d allowed). Exiting because shit is probably broken.\n", max_name_length); exit(1); }
+		catch(PosCoordsWrong& e)	{ printf ("Not enough coordinates in world file for object. Exiting because shit is probably broken.\n"); exit(1); }
+		catch(ScaCoordsWrong& e)	{ printf ("Not enough coordinates in world file for object scaling. Exiting because shit is probably broken.\n"); exit(1); }
+		catch(RotCoordsWrong& e)	{ printf ("Not enough coordinates in world file for object rotation. Exiting because shit is probably broken.\n"); exit(1); }
+			
+	}
+	if (o.has_name && o.has_mesh && o.has_pos && o.has_rot && o.has_sca) CreateObject(&o);
+	printf("Loaded %d objects from world file.\n", nb_objects);
+}
+
+void WorldFile::CreateObject(const WorldFile::TempObject* t)
 {
 	if (!t->mesh[0] || !t->name[0])
-	{
-		printf ("going out of create function\n");
 		return;
-	}
 	printf ("Attempting to create model with mesh %s, name %s\n", t->mesh, t->name);
 
 	Model m;
@@ -33,7 +122,7 @@ void CheckAndCreate(const TempObject* t)
 	o->texture = new Texture;
 	o->mesh = new Mesh;
 
-	char obj_name[name_length + 4];
+	char obj_name[max_name_length + 4];
 	strcpy(obj_name,  t->mesh);
 	char* n = strchr(obj_name, 0);
 	char e[5] = ".obj";
@@ -48,101 +137,3 @@ void CheckAndCreate(const TempObject* t)
 	//o->Scale(t->scale[0], t->scale[1], t->scale[2]); TODO implement Scale
 	printf("Created object %s\n", t->name);
 }
-
-void LoadWorldFile(const char* filename)
-{
-	//temporary object data
-	char* eq;
-	char* co;
-
-	char buffer[FILEREADER_MAX_LINE_LENGTH];
-	FileReader fr;
-   TempObject o;
-	int nb_objects = 0;
-
-	if (!fr.Open(filename)) { printf ("Could not open world file\n"); exit(1); }
-	while (fr.ReadLine(buffer))
-	{
-		switch(buffer[0])
-		{
-			case 'n':
-				//if we have everything for new object, start new one.
-				CheckAndCreate(&o);
-				nb_objects++;
-				if ((eq = strchr(buffer, '=')))
-			 		snprintf(o.name, name_length, "%s", ++eq);
-				else
-				{
-					printf("Name in world file wrong (too long? no longer than %d allowed). Exiting because shit is probably broken.\n", name_length);
-					exit(1);
-				}
-				printf("Name of object: %s\n", o.name);
-				break;
-
-			case 'm':
-				if ((eq = strchr(buffer, '=')))
-			 		snprintf(o.mesh, name_length, "%s", ++eq);
-				else
-				{
-					printf("Mesh name in world file wrong (too long? not longer than %d allowed). Exiting because shit is probably broken.\n", name_length);
-					exit(1);
-				}
-				break;
-
-			case 'c':
-            if ((eq = strchr(buffer, '=')))
-				{
-					co = eq;
-					for (int i = 0; i < 3; i++)
-					{
-						o.coords[i] = atof(++co);
-						printf("Found coordinate %f\n", o.coords[i]);
-						co = strchr(co, ',');
-						if (!co && i != 2)
-						{
-							printf ("Not enough coordinates in world file for object. Exiting because shit is probably broken.\n");
-							exit(1);
-						}
-					}
-				}
-				break;
-
-			case 's':
-            if ((eq = strchr(buffer, '=')))
-				{
-					co = eq;
-					for (int i = 0; i < 3; i++)
-					{
-						o.scale[i] = atof(++co);
-						co = strchr(co, ',');
-						if (!co && i != 2)
-						{
-							printf ("Not enough coordinates in world file for object scaling. Exiting because shit is probably broken.\n");
-							exit(1);
-						}
-					}
-				}
-         	break;
-
-			case 'r':
-            if ((eq = strchr(buffer, '=')))
-				{
-					co = eq;
-					for (int i = 0; i < 3; i++)
-					{
-						o.rotation[i] = atof(++co);
-						co = strchr(co, ',');
-						if (!co && i != 2)
-						{
-							printf ("Not enough coordinates in world file for object rotation. Exiting because shit is probably broken.\n");
-							exit(1);
-						}
-					}
-				}
-				break;
-		}
-	}
-	CheckAndCreate(&o);
-	printf("Loaded %d objects from world file.\n", nb_objects);
-}
-

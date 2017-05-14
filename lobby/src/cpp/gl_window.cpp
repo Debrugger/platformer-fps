@@ -55,7 +55,7 @@ void MainWindow::OnInit()
 	cursor.setShape(Qt::BlankCursor);
 	setCursor(cursor);
 
-	LoadWorldFile("lobby/wftest/world_file.dat");
+	WorldFile::Load("lobby/wftest/world_file.dat");
 }
 
 void MainWindow::OnRender()
