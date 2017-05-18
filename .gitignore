@@ -40,3 +40,4 @@ build
 charmaps.conf
 *.swo
 cache
+rc
