@@ -39,3 +39,4 @@ src/configurator/moc_main.cpp
 build
 charmaps.conf
 *.swo
+cache
