@@ -62,4 +62,11 @@ class Item : public QWidget
 	void SettingChanged();
 };
 
+class Weapon : public Item
+{
+	public:
+	Weapon(ItemList*, MainWindow*, bool, ItemType);
+	~Weapon();
+}
+
 #endif //__ITEM_H

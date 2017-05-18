@@ -3,14 +3,13 @@
 
 #include "lobby_dialog.h"
 #include "connect_dialog.h"
-#include "globals.h"
+#include "main.h"
 #include "common.h"
 
+//todo: verify character and map names for duplicates, check if maximum char and map count are exceeded
 QApplication* app;
-
 LobbyDialog* lobby_dialog_ptr;
 ConnectDialog* connect_dialog_ptr;
-//todo: verify character and map names for duplicates, check if maximum char and map count are exceeded
 
 void SetStyle(QApplication* a)
 {
@@ -38,22 +37,21 @@ void SetStyle(QApplication* a)
 	a->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 }
 
-int main(int c, char *p[])
+int main(int argc, char *argv[])
 {
 	try
 	{
-	app = new QApplication(c, p);
-	app->setOrganizationName("Platformer FPS");
-	app->setApplicationName("Shooter with platforms");
+		app = new QApplication(argc, argv);
+		app->setOrganizationName("Platformer FPS");
+		app->setApplicationName("Shooter with platforms");
 
-	SetStyle(app); 
+		SetStyle(app); 
 
-	lobby_dialog_ptr = new LobbyDialog;
-	connect_dialog_ptr = new ConnectDialog;
-	lobby_dialog_ptr->show();
-	connect_dialog_ptr->exec();
-	app->exec();
-	return 0;
+		lobby_dialog_ptr = new LobbyDialog;
+		connect_dialog_ptr = new ConnectDialog;
+		lobby_dialog_ptr->show();
+		connect_dialog_ptr->exec();
+		return app->exec();
 	}
 	catch(int& e)
 	{
