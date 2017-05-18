@@ -1,7 +1,11 @@
 #include "sysinc.h"
 #include "qtinc.h"
+#include "connect_dialog.h"
+#include "lobby_dialog.h"
 #include "common.h"
 #include "globals.h"
+
+extern QApplication* app;
 
 QString ConfigFile()
 {
@@ -44,4 +48,5 @@ QString ConfigFile()
 				};
 		};
 	}
+	return "";
 }

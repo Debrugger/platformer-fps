@@ -1,13 +1,9 @@
 #ifndef __ITEM_H
 #define __ITEM_H
 
-#include "qtinc.h"
+extern QApplication* app;
+extern LobbyDialog* lobby_dialog_ptr;
+extern ConnectDialog* connect_dialog_ptr;
 
-struct Item
-{
-	QString image_path;
-	QString file_path;
-	QString name;
-};
-
+extern int display_width, display_height; 
 #endif // __ITEM_H
