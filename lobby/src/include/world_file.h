@@ -13,12 +13,14 @@ namespace WorldFile
 	class OpenFileError {};
 	class ObjectNameWrong {};
 	class MeshNameWrong {};
+	class TextureWrong {};
 	class PosCoordsWrong {};
 	class ScaCoordsWrong {};
 	class RotCoordsWrong {};
+	class SpawnpointWrong {};
 }
 
-struct WeaponFile::TempObject
+struct WorldFile::TempObject
 {
 	bool has_name;
 	bool has_mesh;
@@ -30,10 +32,11 @@ struct WeaponFile::TempObject
 
 	char name[max_name_length];
 	char mesh[max_name_length];
+	char texture[max_name_length];
 	double coords[3];
 	double scale[3];
 	double rotation[3];
-	TempObject() : has_name(false), has_mesh(false), has_pos(false), has_rot(false), has_sca(false), name(""), mesh(""), coords{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, rotation{0.0, 0.0, 0.0} {}
+	TempObject() : has_name(false), has_mesh(false), has_pos(false), has_rot(false), has_sca(false), is_platform(false), is_jump(false), name(""), mesh(""), texture("rc/default_tex.png"), coords{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, rotation{0.0, 0.0, 0.0} {}
 };
 
 struct WorldFile::Spawnpoint
@@ -45,6 +48,6 @@ struct WorldFile::Spawnpoint
 			double x, y, z;
 		};
 		double coords[3];
-	}
+	};
 };
 #endif //__WORLD_FILE_H
