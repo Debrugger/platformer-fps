@@ -35,6 +35,7 @@ void WeaponFile::Load(char* filename)
 			switch (buffer[0])
 			{
 				case n:
+					//create new weapon or whatever if everything necessary was read
 					snprintf(w.name, max_name_length, "%s", ++eq);
 					printf("Name of weapon: %s\n", w.name);
 					break;
