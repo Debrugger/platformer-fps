@@ -17,95 +17,151 @@
 //coords = x,BLENDERy!!!!,z=up
 //scale = x,BLENDERy!!!!,z
 //rotation = x,BLENDERy!!!!,z
+//may have extras like
+//platform
+//jump (pad that throws players up when steppedon)
+
+//TODO: need spawn points and weapon points
+//those will be at the bottom of the file, coords of blender empties
+//[Spawnpoints]
+#define SPAWNPOINTS_HEADER				"[Spawnpoints]"
+#define MAX_SPAWNPOINTS					25
 
 void WorldFile::Load(const char* filename)
 {
 	using namespace WorldFile;
+	FileReader fr;
+	char buffer[FILEREADER_MAX_LINE_LENGTH];
+	int line = 0;
 	char* eq;
 	char* co;
-
-	char buffer[FILEREADER_MAX_LINE_LENGTH];
-	FileReader fr;
-   TempObject o;
+	TempObject o;
 	int nb_objects = 0;
+	bool in_spawn_section = false;
+	int nb_weapon_spawns = 0;
+	int nb_player_spawns = 0;
+	Spawnpoint weapon_spawns[MAX_WEAPON_SPAWNPOINTS];
+	Spawnpoint player_spawns[MAX_PLAYER_SPAWNPOINTS];
 
 	if (!fr.Open(filename)) throw OpenFileError();
 	while (fr.ReadLine(buffer))
 	{
+		line++;
 		try
 		{
-		switch(buffer[0])
-		{
-			case 'n':
-				if (o.has_name && o.has_mesh && o.has_pos && o.has_rot && o.has_sca) CreateObject(&o); 
-				nb_objects++;
-				if ((eq = strchr(buffer, '=')))
-			 		snprintf(o.name, max_name_length, "%s", ++eq);
-				else
-					throw ObjectNameWrong();
-				printf("Name of object: %s\n", o.name);
-				o.has_name = true;
-				break;
+			if (strcmp(buffer, SPAWNPOINTS_HEADER))
+				in_spawn_section = true;
+			if (!in_spawn_section) switch(buffer[0])
+			{
+				case 'n':
+					if (o.has_name && o.has_mesh && o.has_pos && o.has_rot && o.has_sca) CreateObject(&o); 
+					nb_objects++;
+					if ((eq = strchr(buffer, '=')))
+						snprintf(o.name, max_name_length, "%s", ++eq);
+					else
+						throw ObjectNameWrong();
+					printf("Name of object: %s\n", o.name);
+					o.has_name = true;
+					break;
 
-			case 'm':
-				if ((eq = strchr(buffer, '=')))
-			 		snprintf(o.mesh, max_name_length, "%s", ++eq);
-				else throw MeshNameWrong();
-				o.has_mesh = true;
-				break;
+				case 'm':
+					if ((eq = strchr(buffer, '=')))
+						snprintf(o.mesh, max_name_length, "%s", ++eq);
+					else throw MeshNameWrong();
+					o.has_mesh = true;
+					break;
 
-			case 'c':
-            if ((eq = strchr(buffer, '=')))
-				{
-					co = eq;
-					for (int i = 0; i < 3; i++)
+				case 'c':
+					if ((eq = strchr(buffer, '=')))
 					{
-						o.coords[i] = atof(++co);
-						printf("Found coordinate %f\n", o.coords[i]);
-						co = strchr(co, ',');
-						if (!co && i != 2) throw PosCoordsWrong();
+						co = eq;
+						for (int i = 0; i < 3; i++)
+						{
+							o.coords[i] = atof(++co);
+							printf("Found coordinate %f\n", o.coords[i]);
+							co = strchr(co, ',');
+							if (!co && i != 2) throw PosCoordsWrong();
+						}
 					}
-				}
-				o.has_pos = true;
-				break;
+					o.has_pos = true;
+					break;
 
-			case 's':
-            if ((eq = strchr(buffer, '=')))
-				{
-					co = eq;
-					for (int i = 0; i < 3; i++)
+				case 's':
+					if ((eq = strchr(buffer, '=')))
 					{
-						o.scale[i] = atof(++co);
-						co = strchr(co, ',');
-						if (!co && i != 2) throw ScaCoordsWrong();
-							
-					}
-				}
-				o.has_sca = true;
-         	break;
+						co = eq;
+						for (int i = 0; i < 3; i++)
+						{
+							o.scale[i] = atof(++co);
+							co = strchr(co, ',');
+							if (!co && i != 2) throw ScaCoordsWrong();
 
-			case 'r':
-            if ((eq = strchr(buffer, '=')))
-				{
-					co = eq;
-					for (int i = 0; i < 3; i++)
-					{
-						o.rotation[i] = atof(++co);
-						co = strchr(co, ',');
-						if (!co && i != 2) throw RotCoordsWrong();
+						}
 					}
+					o.has_sca = true;
+					break;
+
+				case 'r':
+					if ((eq = strchr(buffer, '=')))
+					{
+						co = eq;
+						for (int i = 0; i < 3; i++)
+						{
+							o.rotation[i] = atof(++co);
+							co = strchr(co, ',');
+							if (!co && i != 2) throw RotCoordsWrong();
+						}
+					}
+					o.has_rot = true;
+					break;
+				default: break;
+			}
+			if (in_spawn_section)
+			{
+				switch (buffer[0])
+				{
+					case 'p':
+						if ((eq = strchr(buffer, '=')) && nb_player_spawns < MAX_SPAWNPOINTS)
+						{
+							co = eq;
+							for (int i = 0; i < 3; i++)
+							{
+								player_spawns[nb_player_spawns].coords[i] = atof(++co);
+								printf("Found player spawn coordinate %f\n", o.coords[i]);
+								co = strchr(co, ',');
+								if (!co && i != 2) throw SpawnpointWrong();
+							}
+							nb_player_spawns++;
+						}
+						else throw SpawnpointWrong();
+						break;
+					case 'w':
+						if ((eq = strchr(buffer, '=')) && nb_weapon_spawns < MAX_SPAWNPOINTS)
+						{
+							co = eq;
+							for (int i = 0; i < 3; i++)
+							{
+								weapon_spawns[nb_weapon_spawns].coords[i] = atof(++co);
+								printf("Found weapon spawn coordinate %f\n", o.coords[i]);
+								co = strchr(co, ',');
+								if (!co && i != 2) throw SpawnpointWrong();
+							}
+							nb_weapon_spawns++;
+						}
+						else throw SpawnpointWrong();
+						break;
+					default: break;
 				}
-				o.has_rot = true;
-				break;
+			}
 		}
-		}
-		catch(OpenFileError& e)		{ printf ("Could not open world file. Exiting.\n"); exit(1); }
-		catch(ObjectNameWrong& e)	{ printf("Name in world file wrong (too long? no longer than %d allowed). Exiting because shit is probably broken.\n", max_name_length); exit(1); }
-		catch(MeshNameWrong& e)		{ printf("Mesh name in world file wrong (too long? not longer than %d allowed). Exiting because shit is probably broken.\n", max_name_length); exit(1); }
-		catch(PosCoordsWrong& e)	{ printf ("Not enough coordinates in world file for object. Exiting because shit is probably broken.\n"); exit(1); }
-		catch(ScaCoordsWrong& e)	{ printf ("Not enough coordinates in world file for object scaling. Exiting because shit is probably broken.\n"); exit(1); }
-		catch(RotCoordsWrong& e)	{ printf ("Not enough coordinates in world file for object rotation. Exiting because shit is probably broken.\n"); exit(1); }
-			
+		catch(OpenFileError& e)		{ printf ("Could not open world file %s. Exiting.\n", filename); exit(1); }
+		catch(ObjectNameWrong& e)	{ printf("Name in world file %s wrong (too long? no longer than %d allowed). Exiting because shit is probably broken.\n", filename, max_name_length); exit(1); }
+		catch(MeshNameWrong& e)		{ printf("Mesh name in world file %s wrong (too long? no longer than %d allowed). Exiting because shit is probably broken.\n", filename, max_name_length); exit(1); }
+		catch(PosCoordsWrong& e)	{ printf ("Not enough coordinates in world file %s:%d for object. Exiting because shit is probably broken.\n", filename, line); exit(1); }
+		catch(ScaCoordsWrong& e)	{ printf ("Not enough coordinates in world file %s:%d for object scaling. Exiting because shit is probably broken.\n", filename, line); exit(1); }
+		catch(RotCoordsWrong& e)	{ printf ("Not enough coordinates in world file %s:%d for object rotation. Exiting because shit is probably broken.\n", filename, line); exit(1); }
+		catch(SpawnpointWrong& e)	{ printf ("Spawnpoint in world file %s:%d wrong (too long? no longer than %d allowed. Exiting.", filename, line, MAX_SPAWNPOINTS); exit(1); }
+
 	}
 	if (o.has_name && o.has_mesh && o.has_pos && o.has_rot && o.has_sca) CreateObject(&o);
 	printf("Loaded %d objects from world file.\n", nb_objects);
@@ -128,11 +184,11 @@ void WorldFile::CreateObject(const WorldFile::TempObject* t)
 	char e[5] = ".obj";
 	strcpy(n, e);
 
-   m.Load(obj_name);
+	m.Load(obj_name);
 	m.ToMesh(o->mesh);
 	o->shader = &shader; //TODO: have these in world file
 	o->texture->Load("rc/haus/tex/mat/WoodFine06_COL_VAR1_3K.png"); //TODO
-   o->MoveTo(t->coords[0], t->coords[1], t->coords[2]);
+	o->MoveTo(t->coords[0], t->coords[1], t->coords[2]);
 	o->Rotate(t->rotation[0], t->rotation[2], t->rotation[1]); //swapping y and z
 	//o->Scale(t->scale[0], t->scale[1], t->scale[2]); TODO implement Scale
 	printf("Created object %s\n", t->name);
