@@ -23,7 +23,7 @@ int Shader::CompileShader(const char* shader_name, int type)
 
 	if (::stat(shader_name, &st) != 0)
 	{
-		printf("FATAAAAAL: could not find shader '%s'\n", shader_name);
+		printf("Could not find shader '%s'. Exiting.\n", shader_name);
 		exit(1);
 	}
 

@@ -16,9 +16,8 @@ class FileReader
 	public:
 	FileReader();
 	bool Open(const char *filename);
-	void Close();
-
 	bool ReadLine(char *destination_line);
+	void Close();
 };
 
 
