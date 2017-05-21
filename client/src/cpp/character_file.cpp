@@ -92,5 +92,6 @@ CharacterFile::Load(char* filename)
 					break;
 			}
 		}
+		fr.Close();
 	}
 }

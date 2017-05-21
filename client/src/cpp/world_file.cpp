@@ -72,7 +72,7 @@ void WorldFile::Load(const char* filename)
 					o.has_mesh = true;
 					break;
 
-				case 't'
+				case 't':
 					if ((eq = strchr(buffer, '=')))
 						snprintf(o.texture, max_name_length, "%s", ++eq);
 					else
@@ -172,6 +172,7 @@ void WorldFile::Load(const char* filename)
 		catch(SpawnpointWrong& e)	{ printf ("Spawnpoint in world file %s:%d wrong (too long? no longer than %d allowed. Exiting.", filename, line, MAX_SPAWNPOINTS); exit(1); }
 
 	}
+	fr.Close();
 	if (o.has_name && o.has_mesh && o.has_pos && o.has_rot && o.has_sca) CreateObject(&o);
 	printf("Loaded %d objects from world file.\n", nb_objects);
 }
