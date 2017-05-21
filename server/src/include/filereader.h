@@ -1,1 +1,1 @@
-../../../lobby/src/include/filereader.h
+../../../client/src/include/filereader.h

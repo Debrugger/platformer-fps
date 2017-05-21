@@ -1,6 +1,7 @@
 .PHONY: distclean
 .PHONY: configurator
 .PHONY: client
+.PHONY: server
 
 ll: configurator client server
 
@@ -17,7 +18,7 @@ client:
 server:
 	@echo "Building server..."
 	@echo ""
-	@cd client && make --no-print-directory
+	@cd server && make --no-print-directory
 
 distclean:
 	rm -rfv configurator/build

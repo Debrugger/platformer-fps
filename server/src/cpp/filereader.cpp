@@ -1,1 +1,1 @@
-../../../lobby/src/cpp/filereader.cpp
+../../../client/src/cpp/filereader.cpp
