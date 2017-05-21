@@ -29,21 +29,30 @@
  tlarm
  */
 
-CharacterFile::Load(char* filename)
+CharacterFile::TempCharacter::BodyPart::BodyPart()
 {
-	Filereader fr;
+	//obj_name = "";
+	for (int i = 0; i < 3; ++i) coords[i] = 0.0;
+	//tex_name = "rc/default_tex.png";
+}
+
+void CharacterFile::Load(char* filename)
+{
+	FileReader fr;
 	char* eq;
 	char* co;
 	char buffer[FILEREADER_MAX_LINE_LENGTH];
+	int line = 0;
 	TempCharacter c;
-	BodyPart* bp;
+	TempCharacter::BodyPart* bp;
 
 	try
 	{
 		if (!fr.Open(filename))
 			throw OpenFileError();
-		while (fr.Readline(buffer))
+		while (fr.ReadLine(buffer))
 		{
+			line++;
 			switch (buffer[0])
 			{
 				case 'n': //name
@@ -51,8 +60,8 @@ CharacterFile::Load(char* filename)
 					snprintf(c.name, max_name_length, "%s", ++eq);
 					break;
 				case 'm': //mesh
-					if (!(eq = strchr(buffer, '='))) throw BadMesh();
-					snprintf(c.mesh, max_name_length, "%s", ++eq);
+					if (!(eq = strchr(buffer, '='))) throw BadMeshName();
+					snprintf(c.mesh_name, max_name_length, "%s", ++eq);
 					break;
 				case 'c': //coords  crfoot=
 					if (!(eq = strchr(buffer, '='))) throw BadCoords();
@@ -74,7 +83,7 @@ CharacterFile::Load(char* filename)
 					}
 					break;
 				case 't': //texture
-					if (!(eq = strchr(buffer, '='))) throw BadTexture();
+					if (!(eq = strchr(buffer, '='))) throw BadTextureName();
 					co = eq;
 					switch (buffer[2])
 					{
@@ -94,4 +103,8 @@ CharacterFile::Load(char* filename)
 		}
 		fr.Close();
 	}
+	catch (BadName& e)			{ printf("Bad character name in file %s:%d. Exiting.", filename, line); exit(1); }
+	catch (BadMeshName& e)		{ printf("Bad mesh name in character file %s:%d. Exiting.", filename, line); exit(1); }
+	catch (BadCoords& e)			{ printf("Bad coordinates in character file %s:%d. Exiting.", filename, line); exit(1); }
+	catch (BadTextureName& e) 	{  printf("Bad texture name in character file %s:%d. Exiting.", filename, line); exit(1); }
 }

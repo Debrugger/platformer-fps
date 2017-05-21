@@ -15,21 +15,27 @@ namespace CharacterFile
 {
 	const int max_name_length = 50;
 	class TempCharacter;
+	void Load(char* filename);
 
 	class OpenFileError {};
+	class BadName {};
+	class BadMeshName {};
+	class BadCoords {};
+	class BadTextureName {};
 }
 
-class CharacterFile::TempCharacter
+struct CharacterFile::TempCharacter
 {
 	struct BodyPart
 	{
 		char obj_name[max_name_length];
 		double coords[3];
       char tex_name[max_name_length];
-		BodyPart() : obj_name(""), coords[0](0.0), coords[1](0.0), coords[2](0.0), tex_name("rc/default_tex.png");
+		BodyPart();
 	};
-	BodyPart body, r_arm, l_arm, r_foot, l_foot;
+	BodyPart body, rarm, larm, rfoot, lfoot;
 	char name[max_name_length];
+	char mesh_name[max_name_length];
 };
 
 #endif //__CHARACTER_FILE_H
