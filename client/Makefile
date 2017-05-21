@@ -40,7 +40,7 @@ endif
 $(APP_NAME): $(OBJLIST)
 	@echo ""
 	@echo "linking ..."
-	@$(COMPILER) $(FLAGS) -o $(APP_NAME) $(OBJLIST) $(LIBS)
+	$(COMPILER) $(FLAGS) -o $(APP_NAME) $(OBJLIST) $(LIBS)
 	@echo ""
 	@stat -c '%n      %s Bytes' $@
 	@echo ""
@@ -48,22 +48,22 @@ $(APP_NAME): $(OBJLIST)
 
 build/%.o: src/cpp/%.cpp
 	@echo "compiling $< ..."
-	@$(COMPILER) -c $(FLAGS) $(DEFINES) $(INCLUDES) -o $@ $<
+	$(COMPILER) -c $(FLAGS) $(DEFINES) $(INCLUDES) -o $@ $<
 
 
 build/%.moc.o: build/%.moc.cpp
 	@echo "compiling $< ..."
-	@$(COMPILER) -c $(FLAGS) $(DEFINES) $(INCLUDES) -o $@ $<
+	$(COMPILER) -c $(FLAGS) $(DEFINES) $(INCLUDES) -o $@ $<
 
 
 build/%.moc.cpp: src/include/%.h
 	@echo "mocking   $< ..."
-	@moc --no-notes $(DEFINES) $(INCLUDES) $< -o $@
+	moc --no-notes $(DEFINES) $(INCLUDES) $< -o $@
 
 
 build/%.ui.h: src/ui/%.ui build/%.moc.cpp
 	@echo "UICing    $< ..."
-	@uic $< -o $@
+	uic $< -o $@
 
 .depend: src/cpp/*.cpp src/include/*.h src/ui/*.ui
 	@for f in src/cpp/*.cpp ; do k=$$(basename $$f); cpp $(FLAGS) $(DEFINES) $(INCLUDES) -M -MG -MT build/$${k%.*}.o $$f ; done > .depend

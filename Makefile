@@ -1,20 +1,26 @@
 .PHONY: distclean
 .PHONY: configurator
-.PHONY: lobby
+.PHONY: client
 
-ll: configurator lobby
+ll: configurator client server
 
 configurator: 
-	@echo "COMPILING CONFIGURATOR"
+	@echo "Building configurator..."
 	@echo ""
 	@cd configurator && make --no-print-directory
 
-lobby:
-	@echo "COMPILING LOBBY"
+client:
+	@echo "Building client..."
 	@echo ""
-	@cd lobby && make --no-print-directory    
+	@cd client && make --no-print-directory    
+
+server:
+	@echo "Building server..."
+	@echo ""
+	@cd client && make --no-print-directory
 
 distclean:
-	@rm -rfv configurator/build
-	@rm -rfv lobby/build
-	@rm -rfv bin/*
+	rm -rfv configurator/build
+	rm -rfv client/build
+	rm -rfv server/build
+	rm -rfv bin/*
