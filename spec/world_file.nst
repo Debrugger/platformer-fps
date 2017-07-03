@@ -1,0 +1,65 @@
+###################################################
+#####single line comments with # at beginnning#####
+
+<World name in header>
+
+{objects}
+
+[Object 1]
+#path relative to world model/ dir
+model=mymodel.obj
+
+#x,y,z (opengl not blender)
+translation=0.451,45.23,100.4
+
+#rotation in radians
+rotation=1.7,0.5,0.234
+scale=2,2,2
+
+#relative to world tex/ dir
+tex_diff=mat/wood1_col.png
+tex_spec=mat/wood1_spec.png
+tex_nrm=mat/wood1_nrm.png
+
+#extra attributes (one per line)
+attributes=platform,jump    
+
+#every object has actions
+-actions-
+
+forever: move_between 5.4,3.4,100 67,32.4,67
+
+###Triggers##
+forever
+interval mseconds
+on_land, on_leave
+
+##Actions##
+rotate axis(x,y,z) speed
+rotate_around x,y,z speed
+move_abs x,y,z speed
+move_rel x,y,z speed
+move_between x,y,z x,y,z speed
+scale x,y,z speed
+
+
+[platform big center]
+model=mymodel.obj
+translation=0.451,45.23,100.4
+rotation=1.7,0.5,0.234
+scale=2,2,2
+tex_diff=mat/wood1_col.png
+tex_spec=mat/wood1_spec.png
+tex_nrm=mat/wood1_nrm.png
+attributes=platform
+-actions-
+forever: rotate_around 5.4,3.4,100 0.3
+
+
+{spawnpoints}
+
+[spawn1]
+pos=0.5,5.6,10
+
+[spawn2]
+pos=0.5,5.6,10

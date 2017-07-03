@@ -1,3 +1,4 @@
+#ifdef NOCOMPLIETHIS
 #include "sysinc.h"
 #include "filereader.h"
 #include "character_file.h"
@@ -53,3 +54,4 @@ void CharacterFile::Load(char* filename)
 	catch (ErrorOpeningFile& e) { printf("Could not open character file %s. Exiting", filename); exit(1); }
 	catch (MissingEq& e) { printf("Bad line %d in character file %s. Exiting.", line, filename); exit(1); }
 }
+#endif

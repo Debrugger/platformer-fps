@@ -1,5 +1,5 @@
-#include "sysinc.h"
-#include "filereader.h"
+#include "nst_sysinc.h"
+#include "nst_filereader.h"
 
 FileReader::FileReader()
 {
@@ -16,7 +16,7 @@ bool FileReader::Open(const char *filename)
 	if (handle < 0)
 	{
 		handle = -1;
-		printf("sorry, could not open file '%s'\n", filename);
+		printf("FileReader: could not open file '%s'\n", filename);
 		return false;
 	}
 
@@ -24,7 +24,7 @@ bool FileReader::Open(const char *filename)
 	if (!buffer)
 	{
 		Close();
-		printf("could not allocate %d bytes of memory\n", FILEREADER_BUFFER_SIZE);
+		printf("FileReader: could not allocate %d bytes of memory\n", FILEREADER_BUFFER_SIZE);
 		return false;
 	}
 
@@ -53,7 +53,7 @@ bool FileReader::ReadLine(char *destination_line)
 
 	if (handle < 0)
 	{
-		printf("ERROR: called ReadLine() without open file!!!\n");
+		printf("FileReader: called ReadLine() without open file!\n");
 		return false;
 	}
 	i = 0;
@@ -72,14 +72,13 @@ bool FileReader::ReadLine(char *destination_line)
 
 		if (left_buffer_bytes != 0)
 		{
-			printf("FATALER PROGRAMMIERFEHLER!!!!!! DARF NICHT PASSIEREN in FileReader::ReadLine()\n");
+			printf("FileReader: things went terribly wrong. Exiting.");
 			exit(1);
 		}
 
 		r = read(handle, buffer, FILEREADER_BUFFER_SIZE);
 		if (r <= 0)
 		{
-			/* wenn destination_line ne halbe Zeile enth?lt, dann kann diese noch ausgeliefert werden! */
 			if (i)
 			{
 				destination_line[i] = 0;

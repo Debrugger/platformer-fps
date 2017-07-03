@@ -1,0 +1,155 @@
+==9836== Memcheck, a memory error detector
+==9836== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==9836== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==9836== Command: bin/client
+==9836== 
+2
+Loaded character Lightros with image /run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/lightros.png
+Loaded character Delete with image /run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/delete.png
+Loaded map Warehouse with image /run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/warehouse.png
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/lightros.png"  width:  100  height  30
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/warehouse.png"  width:  100  height  30
+b
+Resized
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/warehouse.png"  width:  100  height  30
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/lightros.png"  width:  100  height  30
+Resized
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/warehouse.png"  width:  664  height  175
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/lightros.png"  width:  663  height  175
+==9836== Syscall param writev(vector[...]) points to uninitialised byte(s)
+==9836==    at 0x75BACFD: ??? (in /usr/lib/libc-2.25.so)
+==9836==    by 0x9D56BAC: ??? (in /usr/lib/libxcb.so.1.1.0)
+==9836==    by 0x9D56FAC: ??? (in /usr/lib/libxcb.so.1.1.0)
+==9836==    by 0x9D57246: ??? (in /usr/lib/libxcb.so.1.1.0)
+==9836==    by 0x9D57A5B: xcb_flush (in /usr/lib/libxcb.so.1.1.0)
+==9836==    by 0xE0BE396: QXcbWindow::setCursor(unsigned int, bool) (in /usr/lib/libQt5XcbQpa.so.5.9.0)
+==9836==    by 0xE0CA099: ??? (in /usr/lib/libQt5XcbQpa.so.5.9.0)
+==9836==    by 0x5B3A08C: QWindowPrivate::applyCursor() (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x5B3D7EC: QWindowPrivate::setCursor(QCursor const*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x123F67: MainWindow::OnInit() (gl_window.cpp:56)
+==9836==    by 0x12413B: MainWindow::OnRender() (gl_window.cpp:86)
+==9836==    by 0x124A9C: MainWindow::exposeEvent(QExposeEvent*) (gl_window.cpp:213)
+==9836==  Address 0xd5d66a6 is 4,582 bytes inside a block of size 21,152 alloc'd
+==9836==    at 0x4C2DF05: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==9836==    by 0x9D5655B: xcb_connect_to_fd (in /usr/lib/libxcb.so.1.1.0)
+==9836==    by 0x9D5A4B8: xcb_connect_to_display_with_auth_info (in /usr/lib/libxcb.so.1.1.0)
+==9836==    by 0x7AEE349: _XConnectXCB (in /usr/lib/libX11.so.6.3.0)
+==9836==    by 0x7ADF081: XOpenDisplay (in /usr/lib/libX11.so.6.3.0)
+==9836==    by 0xE0AA617: QXcbConnection::QXcbConnection(QXcbNativeInterface*, bool, unsigned int, char const*) (in /usr/lib/libQt5XcbQpa.so.5.9.0)
+==9836==    by 0xE0ADE59: QXcbIntegration::QXcbIntegration(QStringList const&, int&, char**) (in /usr/lib/libQt5XcbQpa.so.5.9.0)
+==9836==    by 0xDE6B2AA: ??? (in /usr/lib/qt/plugins/platforms/libqxcb.so)
+==9836==    by 0x5B1ABDC: QPlatformIntegrationFactory::create(QString const&, QStringList const&, int&, char**, QString const&) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x5B2B201: QGuiApplicationPrivate::createPlatformIntegration() (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x5B2BD2C: QGuiApplicationPrivate::createEventDispatcher() (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x55CF854: QCoreApplicationPrivate::init() (in /usr/lib/libQt5Core.so.5.9.0)
+==9836== 
+==9836== Invalid read of size 8
+==9836==    at 0x112E8B: Hashmap<ContentFile::ConfigValue>::Clear() (hashmap.h:167)
+==9836==    by 0x112C94: Hashmap<ContentFile::ConfigValue>::~Hashmap() (hashmap.h:18)
+==9836==    by 0x11EE33: InitGame::InitWorld() (initworld.cpp:9)
+==9836==    by 0x123F6C: MainWindow::OnInit() (gl_window.cpp:58)
+==9836==    by 0x12413B: MainWindow::OnRender() (gl_window.cpp:86)
+==9836==    by 0x124A9C: MainWindow::exposeEvent(QExposeEvent*) (gl_window.cpp:213)
+==9836==    by 0x5B3D984: QWindow::event(QEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x12450B: MainWindow::event(QEvent*) (gl_window.cpp:130)
+==9836==    by 0x62F346B: QApplicationPrivate::notify_helper(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x62FACF3: QApplication::notify(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x55C8B97: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /usr/lib/libQt5Core.so.5.9.0)
+==9836==    by 0x5B329AE: QGuiApplicationPrivate::processExposeEvent(QWindowSystemInterfacePrivate::ExposeEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==  Address 0xd88d9e8 is 8 bytes before a block of size 128 alloc'd
+==9836==    at 0x4C2CC7F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==9836==    by 0x113489: Hashmap<ContentFile::ConfigValue>::GetOrFetch(char const*, bool*, bool) (hashmap.h:75)
+==9836==    by 0x112CD5: Hashmap<ContentFile::ConfigValue>::Fetch(char const*, bool*) (hashmap.h:20)
+==9836==    by 0x112779: ContentFile::ParseFile(char*) (contentfile.cpp:30)
+==9836==    by 0x11EDEF: InitGame::InitWorld() (initworld.cpp:9)
+==9836==    by 0x123F6C: MainWindow::OnInit() (gl_window.cpp:58)
+==9836==    by 0x12413B: MainWindow::OnRender() (gl_window.cpp:86)
+==9836==    by 0x124A9C: MainWindow::exposeEvent(QExposeEvent*) (gl_window.cpp:213)
+==9836==    by 0x5B3D984: QWindow::event(QEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x12450B: MainWindow::event(QEvent*) (gl_window.cpp:130)
+==9836==    by 0x62F346B: QApplicationPrivate::notify_helper(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x62FACF3: QApplication::notify(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836== 
+==9836== Invalid read of size 8
+==9836==    at 0x112F11: Hashmap<ContentFile::ConfigValue>::Clear() (hashmap.h:167)
+==9836==    by 0x112C94: Hashmap<ContentFile::ConfigValue>::~Hashmap() (hashmap.h:18)
+==9836==    by 0x11EE33: InitGame::InitWorld() (initworld.cpp:9)
+==9836==    by 0x123F6C: MainWindow::OnInit() (gl_window.cpp:58)
+==9836==    by 0x12413B: MainWindow::OnRender() (gl_window.cpp:86)
+==9836==    by 0x124A9C: MainWindow::exposeEvent(QExposeEvent*) (gl_window.cpp:213)
+==9836==    by 0x5B3D984: QWindow::event(QEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x12450B: MainWindow::event(QEvent*) (gl_window.cpp:130)
+==9836==    by 0x62F346B: QApplicationPrivate::notify_helper(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x62FACF3: QApplication::notify(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x55C8B97: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /usr/lib/libQt5Core.so.5.9.0)
+==9836==    by 0x5B329AE: QGuiApplicationPrivate::processExposeEvent(QWindowSystemInterfacePrivate::ExposeEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==  Address 0xd88d9e8 is 8 bytes before a block of size 128 alloc'd
+==9836==    at 0x4C2CC7F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==9836==    by 0x113489: Hashmap<ContentFile::ConfigValue>::GetOrFetch(char const*, bool*, bool) (hashmap.h:75)
+==9836==    by 0x112CD5: Hashmap<ContentFile::ConfigValue>::Fetch(char const*, bool*) (hashmap.h:20)
+==9836==    by 0x112779: ContentFile::ParseFile(char*) (contentfile.cpp:30)
+==9836==    by 0x11EDEF: InitGame::InitWorld() (initworld.cpp:9)
+==9836==    by 0x123F6C: MainWindow::OnInit() (gl_window.cpp:58)
+==9836==    by 0x12413B: MainWindow::OnRender() (gl_window.cpp:86)
+==9836==    by 0x124A9C: MainWindow::exposeEvent(QExposeEvent*) (gl_window.cpp:213)
+==9836==    by 0x5B3D984: QWindow::event(QEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x12450B: MainWindow::event(QEvent*) (gl_window.cpp:130)
+==9836==    by 0x62F346B: QApplicationPrivate::notify_helper(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x62FACF3: QApplication::notify(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836== 
+==9836== Invalid free() / delete / delete[] / realloc()
+==9836==    at 0x4C2DB1B: operator delete[](void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==9836==    by 0x112F60: Hashmap<ContentFile::ConfigValue>::Clear() (hashmap.h:167)
+==9836==    by 0x112C94: Hashmap<ContentFile::ConfigValue>::~Hashmap() (hashmap.h:18)
+==9836==    by 0x11EE33: InitGame::InitWorld() (initworld.cpp:9)
+==9836==    by 0x123F6C: MainWindow::OnInit() (gl_window.cpp:58)
+==9836==    by 0x12413B: MainWindow::OnRender() (gl_window.cpp:86)
+==9836==    by 0x124A9C: MainWindow::exposeEvent(QExposeEvent*) (gl_window.cpp:213)
+==9836==    by 0x5B3D984: QWindow::event(QEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x12450B: MainWindow::event(QEvent*) (gl_window.cpp:130)
+==9836==    by 0x62F346B: QApplicationPrivate::notify_helper(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x62FACF3: QApplication::notify(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x55C8B97: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /usr/lib/libQt5Core.so.5.9.0)
+==9836==  Address 0xd88d9e8 is 8 bytes before a block of size 128 alloc'd
+==9836==    at 0x4C2CC7F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==9836==    by 0x113489: Hashmap<ContentFile::ConfigValue>::GetOrFetch(char const*, bool*, bool) (hashmap.h:75)
+==9836==    by 0x112CD5: Hashmap<ContentFile::ConfigValue>::Fetch(char const*, bool*) (hashmap.h:20)
+==9836==    by 0x112779: ContentFile::ParseFile(char*) (contentfile.cpp:30)
+==9836==    by 0x11EDEF: InitGame::InitWorld() (initworld.cpp:9)
+==9836==    by 0x123F6C: MainWindow::OnInit() (gl_window.cpp:58)
+==9836==    by 0x12413B: MainWindow::OnRender() (gl_window.cpp:86)
+==9836==    by 0x124A9C: MainWindow::exposeEvent(QExposeEvent*) (gl_window.cpp:213)
+==9836==    by 0x5B3D984: QWindow::event(QEvent*) (in /usr/lib/libQt5Gui.so.5.9.0)
+==9836==    by 0x12450B: MainWindow::event(QEvent*) (gl_window.cpp:130)
+==9836==    by 0x62F346B: QApplicationPrivate::notify_helper(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836==    by 0x62FACF3: QApplication::notify(QObject*, QEvent*) (in /usr/lib/libQt5Widgets.so.5.9.0)
+==9836== 
+width: 2880 height: 378
+parsed value: 5.5,3.4,1.2
+from hm: 5.5,3.4,1.2
+val: 5.5,3.4,1.2
+value: 5.50
+value: 3.40
+value: 1.20
+coord: 5.50
+Resized
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/warehouse.png"  width:  664  height  95
+scene  "/run/media/thomas/DEDD-4416/prog_projects/platformer-fps/img/lightros.png"  width:  663  height  95
+==9836== 
+==9836== HEAP SUMMARY:
+==9836==     in use at exit: 1,025,899 bytes in 7,750 blocks
+==9836==   total heap usage: 127,078 allocs, 119,329 frees, 1,449,667,036 bytes allocated
+==9836== 
+==9836== LEAK SUMMARY:
+==9836==    definitely lost: 10,013 bytes in 24 blocks
+==9836==    indirectly lost: 703 bytes in 13 blocks
+==9836==      possibly lost: 352 bytes in 1 blocks
+==9836==    still reachable: 1,014,831 bytes in 7,712 blocks
+==9836==                       of which reachable via heuristic:
+==9836==                         multipleinheritance: 1,528 bytes in 1 blocks
+==9836==         suppressed: 0 bytes in 0 blocks
+==9836== Rerun with --leak-check=full to see details of leaked memory
+==9836== 
+==9836== For counts of detected and suppressed errors, rerun with: -v
+==9836== Use --track-origins=yes to see where uninitialised values come from
+==9836== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)

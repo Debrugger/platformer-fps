@@ -16,7 +16,7 @@
 #include "glglobals.h"
 #include "gl_window.h"
 #include "playercontrols.h"
-#include "world_file.h"
+#include "gameinit.h"
 
 double pos_x;
 Object* o; 
@@ -49,13 +49,13 @@ void MainWindow::OnInit()
 	cam_pos.Set(0.0, 0.0, -1 * -1);
 	display_width = size().width();
 	display_height = size().height();
-	printf("width: %d height: %d", display_width, display_height);
+	printf("width: %d height: %d\n", display_width, display_height);
 	QCursor cursor;
 	cursor.setPos(display_width / 2, display_height / 2);
 	cursor.setShape(Qt::BlankCursor);
 	setCursor(cursor);
 
-	WorldFile::Load("client/wftest/world_file.dat");
+	InitGame::InitWorld();
 }
 
 void MainWindow::OnRender()

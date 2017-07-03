@@ -1,3 +1,4 @@
+#ifdef DONTCOMPILETHIS
 #include "sysinc.h"
 #include "filereader.h"
 #include "weaponfile.h"
@@ -60,3 +61,4 @@ void WeaponFile::Load(char* filename)
 	catch (BadCooldown& e) { printf("Bad reload value in weapon file %s:%d. Exiting because shit is probably broken.", filename, line); exit(1); }
 	catch (BadReload& e) { printf("Bad reload value in weapon file %s:%d. Exiting because shit is probably broken.", filename, line); exit(1); }
 }
+#endif

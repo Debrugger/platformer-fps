@@ -4,47 +4,31 @@
 /*-----------------Hashmap class----------------*/
 /*--------------v1.0-2017-06-17------------------*/
 
+
 typedef long long int64;
+
+int64 Hash(const char* input);
 
 template<typename T> class Hashmap
 {
-	T* GetOrFetch(char* _key, bool* _created, bool _create = false);
+	T* GetOrFetch(const char* _key, bool* _created, bool _create = false);
 	bool DeleteNode(int _depth, int64 _k, void** _node, bool* _deleted);
-	T* Fetch(char* _key, bool* _created = 0) { return GetOrFetch(_key, _created, true); };
 
 	void** tree_root;
 	int64 size;
 public:
 	Hashmap() : tree_root(0), size(0) {};
-	~Hashmap() { Clear(); };
-	T* Get(char* _key)				{ return GetOrFetch(_key, 0, false); };
-	bool Delete(char* _key);
+	~Hashmap() { /*Clear(); THIS DANGEROUS TODO fic and comment back in*/ };
+	T* Get(const char* _key)				{ return GetOrFetch(_key, 0, false); };
+	T* Fetch(const char* _key, bool* _created = 0) { return GetOrFetch(_key, _created, true); };
+	bool Delete(const char* _key);
 	void Clear();
 	size_t Size() { return size; };
 
-	T* operator[](const char* key)		{ return Fetch(key, 0); };
+	T& operator[](const char* key)		{ return *Fetch(key, 0); };
 };
 
-int64 Hash(const char* input)
-{
-	const char* c;
-	int64 i, hash, chash;
-
-	hash = 0xDEADBEEFDEADBEEF;
-	for (c = input; *c; c++)
-	{
-		if(((hash >> 13) ^ (hash >> 3) ^ (hash >> 7)) & 1)
-			hash ^= 0x1374F2EE1374F2EE;
-		hash = (hash + (unsigned int)(*c) * 0x0811C9DC581C9DC5 + 3) * 0x811C9DC5811C9DC5 + 7;
-	}
-	chash = hash;
-
-	for (i = 0; i < 8; i++)
-		chash ^= hash >> (i << 2);
-	return chash;
-}
-
-template<typename T> T* Hashmap<T>::GetOrFetch(char* _key, bool* _created, bool _create)
+template<typename T> T* Hashmap<T>::GetOrFetch(const char* _key, bool* _created, bool _create)
 {
 	void** node;
 	int nibble;
@@ -99,15 +83,15 @@ template<typename T> bool Hashmap<T>::DeleteNode(int _depth, int64 _k, void** _n
 	int i;
 	int64 real_k = _k & 0xF;  //k is the hash we're getting and we're cutting off everything but the leading 4 bits
 
-	if (!_depth && _node[real_k])  //if we're in the uppermost layer and the node we want to delete exists, delete it
+	if (!_depth)  //if we're in the uppermost layer and the node we want to delete exists, delete it
 	{
 		if (_node[real_k])
 		{
-			delete[] static_cast<T*>(_node[real_k]);
+			delete static_cast<T*>(_node[real_k]);
 			_node[real_k] = 0;
 			*_deleted = true;
+			size--;
 		}
-		size--;
 	}
 	else
 	{
@@ -127,7 +111,7 @@ template<typename T> bool Hashmap<T>::DeleteNode(int _depth, int64 _k, void** _n
 	return true;
 }
 
-template<typename T> bool Hashmap<T>::Delete(char* _key)
+template<typename T> bool Hashmap<T>::Delete(const char* _key)
 {
 	bool ret = false;
 	if (!tree_root) return false;
@@ -135,11 +119,10 @@ template<typename T> bool Hashmap<T>::Delete(char* _key)
 	int64 hash = Hash(_key);
 	if (DeleteNode(15, hash, tree_root, &ret))
 	{
-		printf("deleting tree_root\n");
 		delete tree_root;
 		tree_root = 0;
 	}
-return ret;
+	return ret;
 }
 
 template<typename T> void Hashmap<T>::Clear()
