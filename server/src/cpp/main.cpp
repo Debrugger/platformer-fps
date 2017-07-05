@@ -7,5 +7,14 @@
 
 int main(int argc, char** argv)
 {
-	ContentFile::GameMapData game_map = ContentFile::BuildMapData("gamemap.nst");
+	String filename = "testmap.nst";
+	ContentFile::GameMapData game_map = ContentFile::BuildMapData(filename);
+	printf("map '%s' has %d objects\n", game_map.name.CStr(), game_map.objects.size());
+	for (auto it : game_map.objects)
+	{
+		printf("object %s with coordinates", it.name.CStr());
+		for (int i = 0; i < 3; i++)
+			printf("%.2f, ", it.translation[i]);
+		printf("\n");
+	}
 }

@@ -12,7 +12,7 @@ namespace ContentFile
 	struct Point;
 	Hashmap<ConfigValue> ParseNextBlock(FileReader& fr);
 	std::vector< Hashmap< ConfigValue> > ParseNextSection(FileReader& fr);
-	GameMapData BuildMapData(char* filename);
+	GameMapData BuildMapData(const String filename);
 }
 
 class ContentFile::ConfigValue
@@ -21,7 +21,7 @@ class ContentFile::ConfigValue
 	
 public:
 	void Set(String s)         { val = s; };
-	String& GetString()         { return val; };
+	String& GetString()        { return val; };
 	int GetInt()               { return atoi(val.CStr()); };
 	double GetDouble()         { return atof(val.CStr()); };
 	int* GetIntArr();
@@ -33,11 +33,13 @@ public:
 
 struct ContentFile::GameMapObject
 {
+	String name;
 	String obj_file_name;
 	String texture_diff;
 	double translation[3];
 	double rotation[3];
 	double scale[3];
+	GameMapObject() : name("NoName"), obj_file_name("default.obj"), texture_diff("default_tex.png"), translation{0.0, 0.0, 0.0}, rotation{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0} {};
 	//actions and stuff here
 };
 
@@ -55,6 +57,7 @@ struct ContentFile::GameMapData
 {
 	std::vector<GameMapObject> objects;
 	std::vector<Point> spawnpoints;
+	String name;
 };
 
 #endif //__CONTENT_FILE_H

@@ -45,54 +45,46 @@ double* ContentFile::ConfigValue::GetDoubleArr()
 	return ret;
 }
 
-Hashmap<ContentFile::ConfigValue> ContentFile::ParseNextBlock(FileReader& fr)
-{
-	Hashmap<ConfigValue> ret;
-	char buffer[FILEREADER_MAX_LINE_LENGTH];
-	char* eq;
 
-	while (fr.ReadLine(buffer) && String(buffer).Trim()[0] != '[' && String(buffer).Trim()[0] == '{')
+std::vector< Hashmap< ContentFile::ConfigValue > > ContentFile::ParseNextSection(FileReader& fr)
+{
+	//TODO doesnt work doesnt print out the final part in for loop probably something wrong with hashmap usage
+	std::vector< Hashmap< ContentFile::ConfigValue > > blocks;
+
+	Hashmap<ContentFile::ConfigValue> new_block;
+
+	char b[FILEREADER_MAX_LINE_LENGTH];
+	for (fr.ReadLine(b); fr.ReadLine(b) && String(b).Trim().SubStr(0, 1) != "{/"; )
 	{
-		if (!(eq = strchr(buffer, '=')) || (buffer[0] == '#'))
+		String buf = String(b).Trim();
+
+		char* eq = strchr(buf.CStr(), '=');
+
+		bool skip_line = (buf[0] != '[') && (!eq || (buf[0] == '#' || buf == ""));
+		if (skip_line)
 			continue;
-		*eq = 0;
-		String key = buffer;
-		String trimmed_key = key.Trim();
-		if (trimmed_key == "") continue;
-		String r = eq + 1;
-		//TODO this should work w/ [] operator
-		char* rk = trimmed_key.CStr();
-		ret.Fetch(rk)->Set(r.Trim());
-	}
-	return ret;
-}
 
-std::vector<Hashmap<ContentFile::ConfigValue> > ContentFile::ParseNextSection(FileReader& fr)
-{
-	char buffer[FILEREADER_MAX_LINE_LENGTH];
-	std::vector<Hashmap<ContentFile::ConfigValue> > ret;
-
-	fr.ReadLine(buffer);
-	while (fr.ReadLine(buffer))
-	{
-		printf("in ParseNextSection() with buffer '%s'\n", buffer);
-		String buf = String(buffer).Trim();
-		if (buf[0] == '{') //means we have reached next section
+		if (buf.SubStr(0, 1) == "[/")
 		{
-			printf("found next section, leaving ParseNextSection()\n");
-			return ret;
+			blocks.push_back(new_block);
+		}
+		else if (buf[0] == '[')
+		{
+			new_block["name"] = buf.SubStr(1, buf.Length() - 2);
 		}
 
-		Hashmap<ContentFile::ConfigValue> t = ContentFile::ParseNextBlock(fr);
-		ret.push_back(t);
+		if (eq)
+		{
+			*eq = 0;
+			String new_value = eq + 1;
+			new_block[buf.CStr()].Set(new_value.Trim());
+		}
+
 	}
-	return ret;
+	return blocks;
 }
 
-
-
-
-ContentFile::GameMapData ContentFile::BuildMapData(char* filename)
+ContentFile::GameMapData ContentFile::BuildMapData(const String filename)
 {
 	FileReader fr;
 	char buffer[FILEREADER_MAX_LINE_LENGTH];
@@ -102,25 +94,22 @@ ContentFile::GameMapData ContentFile::BuildMapData(char* filename)
 	std::vector< Hashmap< ContentFile::ConfigValue > > map_spawnpoints;
 	std::vector< Hashmap< ContentFile::ConfigValue > > map_objects;
 
-	if (!fr.Open(filename))
+	if (!fr.Open(filename.CStr()))
 		throw ContentFile::ErrOpenFile();
 
 	while (fr.ReadLine(buffer))
 	{		
 		String b = String(buffer).Trim();
-		if (b[0] == '<')
+		if (b[0] == '<' && b[b.Length() - 1] == '>')
 		{
 			map_name = b.SubStr(1, b.Length() - 2);
-			printf("encountered map name '%s'\n", map_name.CStr());
 		}
 		else if (b == "{objects}")
 		{
-			printf("encountered object header\n");
 			map_objects = ParseNextSection(fr);
 		}
 		else if (b == "{spawnpoints}")
 		{
-			printf("encountered spawnpoint header\n");
 			map_spawnpoints = ParseNextSection(fr);
 		}
 	}
@@ -129,25 +118,23 @@ ContentFile::GameMapData ContentFile::BuildMapData(char* filename)
 	GameMapObject o;
 	for (auto mo : map_objects)
 	{
+		o.name = mo["name"].GetString();
 		o.obj_file_name = mo["model"].GetString();
 		o.texture_diff = mo["tex_diff"].GetString();
 		double* t = mo["translation"].GetDoubleArr();
 		for (int i = 0; i < 3; i++)
 		{
 			o.translation[i] = t[i];
-			printf("Object coordinate %.2f\n", o.translation[i]);
 		}
 		double* r = mo["rotation"].GetDoubleArr();
 		for (int i = 0; i < 3; i++)
 		{
 			o.rotation[i] = r[i];
-			printf("Object rotation %.2f\n", o.rotation[i]);
 		}
 		double* s = mo["scale"].GetDoubleArr();
 		for (int i = 0; i < 3; i++)
 		{
 			o.scale[i] = s[i];
-			printf("Object scale %.2f\n", o.scale[i]);
 		}
 		ret.objects.push_back(o);
 	}
@@ -155,14 +142,14 @@ ContentFile::GameMapData ContentFile::BuildMapData(char* filename)
 	Point p;
 	for (auto ms : map_spawnpoints)
 	{
-		double* c = ms["coords"].GetDoubleArr();
+		double* c = ms["translation"].GetDoubleArr();
 		for (int i = 0; i < 3; i++)
 		{
 			p.coords[i] = c[i];
-			printf("spawnpoint coord: %.2f\n", p.coords[i]);
 		}
 		ret.spawnpoints.push_back(p);
 	}
+	ret.name = map_name;
 
 	return ret;
 }

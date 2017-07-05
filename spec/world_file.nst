@@ -41,6 +41,7 @@ move_abs x,y,z speed
 move_rel x,y,z speed
 move_between x,y,z x,y,z speed
 scale x,y,z speed
+[/Object 1]
 
 
 [platform big center]
@@ -54,12 +55,18 @@ tex_nrm=mat/wood1_nrm.png
 attributes=platform
 -actions-
 forever: rotate_around 5.4,3.4,100 0.3
+[/platform big center]
 
+{/objects}
 
 {spawnpoints}
 
 [spawn1]
-pos=0.5,5.6,10
+translation=0.5,5.6,10
+[/spawn1]
 
 [spawn2]
-pos=0.5,5.6,10
+translation=0.5,5.6,10
+[spawn2]
+
+{/spawnpoints}

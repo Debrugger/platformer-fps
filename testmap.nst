@@ -1,7 +1,7 @@
 ###################################################
 #####single line comments with # at beginnning#####
 
-<World name in header>
+<Worldname>
 
 {objects}
 
@@ -13,6 +13,7 @@ scale=2,2,2
 tex_diff=mat/wood1_col.png
 tex_spec=mat/wood1_spec.png
 tex_nrm=mat/wood1_nrm.png
+[/Object 1]
 
 [platform big center]
 model=mymodel.obj
@@ -22,11 +23,17 @@ scale=2,2,2
 tex_diff=mat/wood1_col.png
 tex_spec=mat/wood1_spec.png
 tex_nrm=mat/wood1_nrm.png
+[/platform big center]
+
+{/objects}
 
 {spawnpoints}
 
 [spawn1]
-pos=0.5,5.6,10
+translation=0.5,5.6,10
+[/spawn1]
 
 [spawn2]
-pos=0.5,5.6,10
+translation=0.5,5.6,10
+[/spawn2]
+{/spawnpoints}
