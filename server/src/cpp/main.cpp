@@ -7,7 +7,7 @@
 
 int main(int argc, char** argv)
 {
-	String filename = "testmap.nst";
+	String filename = "/run/media/thomas/DEDD-4416/Blender/ShooterRes/lvl_house/examplemap/examplemap.nst";
 	ContentFile::GameMapData game_map = ContentFile::BuildMapData(filename);
 	printf("map '%s' has %d objects\n", game_map.name.CStr(), game_map.objects.size());
 	for (auto it : game_map.objects)
