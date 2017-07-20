@@ -1,0 +1,15 @@
+_testmap_
+
+{animations}
+
+[Object 1]
+forever():
+	move 0.0,0.0,0.0 2
+	scale 2.0,2.0,2.0 3 
+[/Object 1]
+
+[platform big center]
+interval(4):
+	move 0.0,0.0,0.0 2
+[/platform big center]
+{/animations}

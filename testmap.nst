@@ -1,13 +1,11 @@
-###################################################
-#####single line comments with # at beginnning#####
-
-<Worldname>
+<testmap>
 
 {objects}
 
 [Object 1]
+
 model=mymodel.obj
-translation=0.451,45.23,100.4
+translation=0,0,0
 rotation=1.7,0.5,0.234
 scale=2,2,2
 tex_diff=mat/wood1_col.png
@@ -16,6 +14,7 @@ tex_nrm=mat/wood1_nrm.png
 [/Object 1]
 
 [platform big center]
+
 model=mymodel.obj
 translation=0.451,45.23,100.4
 rotation=1.7,0.5,0.234

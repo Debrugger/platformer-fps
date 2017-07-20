@@ -1,15 +1,18 @@
 #include "nst_sysinc.h"
 #include <vector>
+#include <unordered_map>
+#include <functional>
 #include "nst_filereader.h"
 #include "nst_hashmap.h"
 #include "nst_string.h"
-#include "nst_contentfile.h"
+#include "nst_datafile.h"
+#include "nst_mapdata.h"
 
 int main(int argc, char** argv)
 {
-	String filename = "/run/media/thomas/DEDD-4416/Blender/ShooterRes/lvl_house/examplemap/examplemap.nst";
-	ContentFile::GameMapData game_map = ContentFile::BuildMapData(filename);
-	printf("map '%s' has %d objects\n", game_map.name.CStr(), game_map.objects.size());
+	String map_name = argv[1];
+	MapData::GameMapData game_map(map_name);
+	printf("map '%s' has %lu objects\n", game_map.Name().CStr(), game_map.objects.size());
 	for (auto it : game_map.objects)
 	{
 		printf("object %s with coordinates", it.name.CStr());
@@ -17,4 +20,5 @@ int main(int argc, char** argv)
 			printf("%.2f, ", it.translation[i]);
 		printf("\n");
 	}
+	printf("and %lu animations\n", game_map.animations.size());
 }

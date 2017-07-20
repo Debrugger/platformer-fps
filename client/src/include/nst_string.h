@@ -8,11 +8,16 @@ class String
 {
 	struct _String
 	{
-		char* s;
 		_String(const char* c);
 		~_String();
-		int len;
+		_String* Own();
+		void Assign(const char* _s);
+		char* s;
+		size_t len;
 		int ref;
+	private:
+      _String(const _String&);
+		_String& operator=(const _String&);
 	};
 
 	_String* rep;
@@ -24,18 +29,19 @@ public:
 	~String();
 	char* NewCStr() const            { char* r = new char[rep->len + 1]; if (!r) throw; strcpy(r, rep->s); return r; };
 	char* CStr() const               { return rep->s; };
-	char& At(int index);
-	String SubStr(int b, int e);
+	char& At(size_t index);
+	String SubStr(size_t b, size_t e);
 	int Length();
 	String Trim();
 
+	operator char*() const           { return CStr(); };
 	bool operator==(const String& s);
 	bool operator==(const char* c);
 	bool operator!=(const String& s) { return !operator==(s); };
 	bool operator!=(const char* c)   { return !operator==(c); };
 	char& operator[](int index)      { return At(index); };
-	void operator=(const char* c);
-	void operator=(const String& s);
+	String& operator=(const char* c);
+	String& operator=(const String& s);
 	String operator+(const String& s);
 	String operator+(const char* c);
 	void operator+=(const String& s);

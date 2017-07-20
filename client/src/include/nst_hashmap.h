@@ -17,15 +17,16 @@ template<typename T> class Hashmap
 	void** tree_root;
 	int64 size;
 public:
-	Hashmap() : tree_root(0), size(0) {};
-	~Hashmap() { /*Clear(); THIS DANGEROUS TODO fic and comment back in*/ };
-	T* Get(const char* _key)				{ return GetOrFetch(_key, 0, false); };
+	Hashmap() : tree_root(0), size(0)          {};
+	~Hashmap() { Clear(); };
+	T* Get(const char* _key)				       { return GetOrFetch(_key, 0, false); };
 	T* Fetch(const char* _key, bool* _created = 0) { return GetOrFetch(_key, _created, true); };
 	bool Delete(const char* _key);
 	void Clear();
 	size_t Size() { return size; };
 
-	T& operator[](const char* key)		{ return *Fetch(key, 0); };
+	T& operator[](const char* key)  	       { return *Fetch(key, 0); };
+	const T& operator[](const char* key) const    { return *Get(key); };
 };
 
 template<typename T> T* Hashmap<T>::GetOrFetch(const char* _key, bool* _created, bool _create)
@@ -57,8 +58,8 @@ template<typename T> T* Hashmap<T>::GetOrFetch(const char* _key, bool* _created,
 			if (_create)
 			{
 				node[nibble] = new void*[16];
-				for (int i = 0; i < 16; ++i)
-					((void**)node[nibble])[i] = 0;
+				for (int j = 0; j < 16; ++j)
+					((void**)node[nibble])[j] = 0;
 				if (_created) *_created = true;
 			}
 			else return 0;
@@ -87,7 +88,7 @@ template<typename T> bool Hashmap<T>::DeleteNode(int _depth, int64 _k, void** _n
 	{
 		if (_node[real_k])
 		{
-			delete static_cast<T*>(_node[real_k]);
+			delete (T*)(_node[real_k]);
 			_node[real_k] = 0;
 			*_deleted = true;
 			size--;
@@ -97,7 +98,7 @@ template<typename T> bool Hashmap<T>::DeleteNode(int _depth, int64 _k, void** _n
 	{
 		if (_node[real_k] && DeleteNode(_depth - 1, _k >> 4, (void**)_node[real_k], _deleted))   //if the node exists
 		{
-			delete[] static_cast<void**>(_node[real_k]);
+			delete [] static_cast<void**>(_node[real_k]);
 			_node[real_k] = 0;
 		}
 	}
@@ -117,9 +118,9 @@ template<typename T> bool Hashmap<T>::Delete(const char* _key)
 	if (!tree_root) return false;
 
 	int64 hash = Hash(_key);
-	if (DeleteNode(15, hash, tree_root, &ret))
+	if (DeleteNode(16, hash, tree_root, &ret))
 	{
-		delete tree_root;
+		delete [] tree_root;
 		tree_root = 0;
 	}
 	return ret;
@@ -127,28 +128,29 @@ template<typename T> bool Hashmap<T>::Delete(const char* _key)
 
 template<typename T> void Hashmap<T>::Clear()
 {
+	return;
 	struct Walker
 	{
 		int branch;
 		void** node;
 	};
-	Walker stack[16];
+	Walker stack[17];
 	void** n = tree_root;
 	int p = 0;
 
 	if (!tree_root)
 		return;
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 17; i++)
 		stack[p].branch = 0;
 
 	while (true)
 	{
 		if (n[stack[p].branch])
 		{
-			if (p == 15)
+			if (p == 16)
 			{
-				delete[] static_cast<T*>(n[stack[p].branch]);
+				delete (T*)(n[stack[p].branch]);
 				n[stack[p].branch] = 0;
 			}
 			else
@@ -168,12 +170,15 @@ template<typename T> void Hashmap<T>::Clear()
 				if (0 > p) 
 				{
 					size = 0;
+					delete [] tree_root;
 					tree_root = 0;
 					return;
 				}
 				n = stack[p].node;
+				if (p >= 16)
+					printf("HASHMAP: BROKEN\n");
 				if (p == 15) 
-					delete[] static_cast<T*>(n[stack[p].branch]);
+					delete[] (T*)(n[stack[p].branch]);
 				else
 					delete[] (void**)n[stack[p].branch];
 				n[stack[p].branch] = 0;

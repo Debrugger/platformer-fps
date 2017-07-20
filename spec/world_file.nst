@@ -9,7 +9,7 @@
 #path relative to world model/ dir
 model=mymodel.obj
 
-#x,y,z (opengl not blender)
+#x,y,z (opengl not blender)  TODO switch
 translation=0.451,45.23,100.4
 
 #rotation in radians
@@ -36,7 +36,7 @@ on_land, on_leave
 
 ##Actions##
 rotate axis(x,y,z) speed
-rotate_around x,y,z speed
+rotate_point x,y,z speed
 move_abs x,y,z speed
 move_rel x,y,z speed
 move_between x,y,z x,y,z speed
