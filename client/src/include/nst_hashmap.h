@@ -128,7 +128,6 @@ template<typename T> bool Hashmap<T>::Delete(const char* _key)
 
 template<typename T> void Hashmap<T>::Clear()
 {
-	return;
 	struct Walker
 	{
 		int branch;
@@ -177,11 +176,11 @@ template<typename T> void Hashmap<T>::Clear()
 				n = stack[p].node;
 				if (p >= 16)
 					printf("HASHMAP: BROKEN\n");
-				if (p == 15) 
-					delete[] (T*)(n[stack[p].branch]);
 				else
+				{
 					delete[] (void**)n[stack[p].branch];
-				n[stack[p].branch] = 0;
+					n[stack[p].branch] = 0;
+				}
 			}
 		}
 	}

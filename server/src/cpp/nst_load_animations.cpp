@@ -94,7 +94,7 @@ void MapData::GameMapData::GetAnimations()
 						};
 
 	FileReader fr;
-	int line;
+	int line = 0;
 	String filename = map_name + "_ani.nst";
 	
 	std::vector<TempAni> parsed_animations;
