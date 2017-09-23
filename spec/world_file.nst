@@ -21,26 +21,9 @@ tex_diff=mat/wood1_col.png
 tex_spec=mat/wood1_spec.png
 tex_nrm=mat/wood1_nrm.png
 
-#extra attributes (one per line)
+#extra attributes
 attributes=platform,jump    
 
-#every object has actions
--actions-
-
-forever: move_between 5.4,3.4,100 67,32.4,67
-
-###Triggers##
-forever
-interval mseconds
-on_land, on_leave
-
-##Actions##
-rotate axis(x,y,z) speed
-rotate_point x,y,z speed
-move_abs x,y,z speed
-move_rel x,y,z speed
-move_between x,y,z x,y,z speed
-scale x,y,z speed
 [/Object 1]
 
 
@@ -53,8 +36,6 @@ tex_diff=mat/wood1_col.png
 tex_spec=mat/wood1_spec.png
 tex_nrm=mat/wood1_nrm.png
 attributes=platform
--actions-
-forever: rotate_around 5.4,3.4,100 0.3
 [/platform big center]
 
 {/objects}

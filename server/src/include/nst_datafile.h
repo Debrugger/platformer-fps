@@ -21,7 +21,7 @@ struct DataFile::ConfigValue
 	
 public:
 	void Set(String s)         { val = s; };
-	String GetString()        { return val; };
+	String GetString()         { return val; };
 	int GetInt() const         { return atoi(val.CStr()); };
 	double GetDouble() const   { return atof(val.CStr()); };
 	int* GetIntArr() const;

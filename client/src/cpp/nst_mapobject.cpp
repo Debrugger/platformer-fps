@@ -1,19 +1,13 @@
 #include "sysinc.h"
-#include "vector.h"
-#include "matrix.h"
-#include "glbuffer.h"
-#include "shader.h"
-#include "texture.h"
-#include "mesh.h"
-#include "object.h"
+#include "nst_vector.h"
+#include "nst_matrix.h"
+#include "nst_glbuffer.h"
+#include "nst_shader.h"
+#include "nst_texture.h"
+#include "nst_mesh.h"
+#include "nst_mapdata.h"
 
-
-Object* Object::first_object = 0;
-Object* Object::last_object = 0;
-
-
-
-Object::Object()
+MapData::MapObject::MapObject()
 {
 	next_object = 0;
 	prev_object = last_object;
@@ -22,14 +16,11 @@ Object::Object()
 	else
 		last_object->next_object = this;
 	last_object = this;
-	name = "unnamed";
 
 	matrix.Identity();
 }
 
-
-
-Object::~Object()
+MapData::MapObject::~MapObject()
 {
 	if (next_object)
 		next_object->prev_object = prev_object;
@@ -42,9 +33,7 @@ Object::~Object()
 		first_object = next_object;
 }
 
-
-
-void Object::Render()
+void MapData::MapObject::Render()
 {
 	if (!mesh)
 		return;
@@ -65,8 +54,6 @@ void Object::Render()
 	glPopMatrix();
 }
 
-
-
 void Object::Rotate(const Vector& axis, double angle)
 {
 	Vector pos;
@@ -80,5 +67,3 @@ void Object::Rotate(const Vector& axis, double angle)
 
 	MoveTo(pos);
 }
-
-
